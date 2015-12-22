@@ -4,12 +4,12 @@
     {
         public IState Update()
         {
-            throw new System.NotImplementedException();
+            return null;
         }
 
         public void Draw()
         {
-            throw new System.NotImplementedException();
+
         }
     }
 }

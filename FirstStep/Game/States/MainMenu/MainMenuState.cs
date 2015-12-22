@@ -1,43 +1,55 @@
 ﻿namespace FirstStep.Game.States
 {
-    using System.Diagnostics;
-
     using Base;
 
-    using Buttons;
+    using Controls;
 
     using Microsoft.Xna.Framework;
 
-    using Observer;
+    using Options;
 
     using Play;
 
-    public class MainMenuState : GoldGame.GameObject, IState
+    /// <summary>
+    /// Состояние нахождения в главном меню.
+    /// </summary>
+    public class MainMenuState : SimpleGameObject, IState
     {
-        private ContolCollection _contols;
+        /// <summary>
+        /// Набор элентов управления.
+        /// </summary>
+        private readonly ContolCollection _contols;
 
+        /// <summary>
+        /// Новое состояние.
+        /// </summary>
         private IState _newState;
 
         public MainMenuState()
         {
-            _contols = ContolCollection
-                .Create()
-                .AtCoords(new Vector2(512, 384))
-                .WithSize(10)
+            _contols = ContolCollection.Create()
+                .AtCoords(ControlPosition.Center)
+                .SetSize(10)
+                .BeforeUpdate(() => _newState = null)
                 .AddControl(new Button("Play", () => _newState = new GameplayState()))
-                .AddControl(new Button("Options", () => _newState = new MainMenuState()))
-                .AddControl(new NumericUpDown("Test", i => Debug.WriteLine(i)))
-                .AddControl(new Button("Quit", () => Game.Exit()));
+                .AddControl(new Button("Options", () => _newState = new OptionsState()))
+                .AddControl(new Button("Quit", () => Game.Exit()))
+                .WithBackground(Color.FromNonPremultiplied(0,0,0,0));
         }
 
-
+        /// <summary>
+        /// Обновиться.
+        /// </summary>
+        /// <returns>Новое состояние, либо null, если состояние не изменилось.</returns>
         public IState Update()
         {
-            _newState = null;
             _contols.Update();
             return _newState;
         }
 
+        /// <summary>
+        /// Отрисоваться.
+        /// </summary>
         public void Draw()
         {
             _contols.Draw();

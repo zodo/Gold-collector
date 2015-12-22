@@ -31,6 +31,6 @@
         /// </summary>
         /// <param name="obj">Юнит.</param>
         /// <param name="eventType">Событие.</param>
-        protected void Notify(GoldGame.GameObject obj, EventType eventType) => _observers.ForEach(x => x.OnNotify(obj, eventType));
+        protected void Notify(MainGame.GameObject obj, EventType eventType) => _observers.ForEach(x => x.OnNotify(obj, eventType));
     }
 }

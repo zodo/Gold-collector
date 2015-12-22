@@ -4,6 +4,8 @@ namespace FirstStep
 {
     using System;
 
+    using Domain;
+
     using Game.States;
 
     using Microsoft.Xna.Framework;
@@ -12,32 +14,34 @@ namespace FirstStep
     
 
     /// <summary>
-    /// This is the main type for your game.
+    /// Основной тип с игровым циклом.
     /// </summary>
-    public partial class GoldGame : Microsoft.Xna.Framework.Game
+    public partial class MainGame : Microsoft.Xna.Framework.Game
     {
-        GraphicsDeviceManager graphics;
-        public SpriteBatch SpriteBatch;
+        public GraphicsDeviceManager Graphics { get; set; }
+        public SpriteBatch SpriteBatch { get; private set; }
 
-        public SpriteFont Font;
-        public Texture2D WhiteRectangle;
+        public SpriteFont Font { get; private set; }
+        public Texture2D WhiteRectangle { get; private set; }
+
+        private static BoardSettings _settings = new BoardSettings();
 
         private IState _state;
 
-        private static GoldGame Instance { get; set; }
+        private static MainGame _instance { get; set; }
 
         private static bool _instantied;
 
-        public GoldGame()
+        public MainGame()
         {
             if (_instantied)
             {
-                throw new InvalidOperationException($"{nameof(GoldGame)} can be instancied only once");
+                throw new InvalidOperationException($"{nameof(MainGame)} can be instancied only once");
             }
             _instantied = true;
-            graphics = new GraphicsDeviceManager(this);
+            Graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
-            Instance = this;
+            _instance = this;
         }
 
         /// <summary>
@@ -49,8 +53,8 @@ namespace FirstStep
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
-            graphics.PreferredBackBufferWidth = 1024;
-            graphics.PreferredBackBufferHeight = 768;
+            Graphics.PreferredBackBufferWidth = 1024;
+            Graphics.PreferredBackBufferHeight = 700;
             //TargetElapsedTime = TimeSpan.FromSeconds(1.0f / 100.0f);
             //graphics.SynchronizeWithVerticalRetrace = true;
             _state = new MainMenuState();

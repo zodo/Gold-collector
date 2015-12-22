@@ -38,18 +38,22 @@
     <ApplicationIcon>Icon.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="Buttons\ContolCollection.cs" />
-    <Compile Include="Buttons\Button.cs" />
-    <Compile Include="Buttons\ControlCollectionBuilder.cs" />
-    <Compile Include="Buttons\Control.cs" />
-    <Compile Include="Buttons\NumericUpDown.cs" />
+    <Compile Include="Controls\ContolCollection.cs" />
+    <Compile Include="Controls\Button.cs" />
+    <Compile Include="Controls\ControlCollectionBuilder.cs" />
+    <Compile Include="Controls\Control.cs" />
+    <Compile Include="Controls\ControlPosition.cs" />
+    <Compile Include="Controls\NumericUpDown.cs" />
     <Compile Include="Cell\Terrain.cs" />
     <Compile Include="Commands\ICommand.cs" />
     <Compile Include="Commands\CommandFactory.cs" />
     <Compile Include="Commands\GoLeftCommand.cs" />
+    <Compile Include="Domain\BoardSettings.cs" />
     <Compile Include="EventType.cs" />
-    <Compile Include="GameObject.cs" />
-    <Compile Include="Game\GoldGame.cs" />
+    <Compile Include="Domain\GameObject.cs" />
+    <Compile Include="Game\MainGame.cs" />
+    <Compile Include="Domain\InteractiveGameObject.cs" />
+    <Compile Include="Domain\SimpleGameObject.cs" />
     <Compile Include="Game\States\IState.cs" />
     <Compile Include="Game\States\MainMenu\MainMenuState.cs" />
     <Compile Include="Game\States\Options\OptionsState.cs" />

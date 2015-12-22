@@ -14,7 +14,7 @@ namespace FirstStep
         [STAThread]
         static void Main()
         {
-            using (var game = new GoldGame {IsMouseVisible = true})
+            using (var game = new MainGame())
                 game.Run();
         }
     }

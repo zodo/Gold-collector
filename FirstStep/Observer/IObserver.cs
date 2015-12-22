@@ -12,6 +12,6 @@
         /// </summary>
         /// <param name="obj">Юнит.</param>
         /// <param name="eventType">Событие.</param>
-        void OnNotify(GoldGame.GameObject obj, EventType eventType);
+        void OnNotify(MainGame.GameObject obj, EventType eventType);
     }
 }
