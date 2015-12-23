@@ -5,15 +5,20 @@
     /// <summary>
     /// Комманда пойти влево.
     /// </summary>
-    public class GoLeftCommand : ICommand
+    public class GoLeftCommand : Command
     {
+        public GoLeftCommand(MoveableUnit unit)
+            : base(unit)
+        {
+        }
+
         /// <summary>
         /// Выполнить команду.
         /// </summary>
         /// <param name="moveableUnit">Игрок.</param>
-        public void Execute(MoveableUnit moveableUnit)
+        public override bool Execute()
         {
-            throw new System.NotImplementedException();
+            return Unit.GoLeft();
         }
     }
 }

@@ -1,10 +1,6 @@
-﻿namespace FirstStep.Buttons
+﻿namespace FirstStep.Controls
 {
     using System;
-
-    using Base;
-
-    using Controls;
 
     using Game;
 
@@ -19,7 +15,6 @@
         /// Набор элементов управления.
         /// </summary>
         private readonly ContolCollection _contol;
-
 
         public ControlCollectionBuilder(ContolCollection contolCollection)
         {
@@ -46,10 +41,18 @@
             return this;
         }
 
+        public ControlCollectionBuilder ShiftOn(Vector2 shift)
+        {
+            _contol.Coordinates += shift;
+            return this;
+        }
+
         public ControlCollectionBuilder AtCoords(ControlPosition position)
         {
             var coords = new Vector2();
-            var screenSize = new Vector2(Game.Graphics.PreferredBackBufferWidth, Game.Graphics.PreferredBackBufferHeight);
+            var screenSize = new Vector2(
+                Game.Graphics.PreferredBackBufferWidth,
+                Game.Graphics.PreferredBackBufferHeight);
             if (position.HasFlag(ControlPosition.Center))
             {
                 coords = screenSize / 2;
@@ -72,6 +75,12 @@
         public ControlCollectionBuilder SetSize(double size)
         {
             _contol.Size = size;
+            return this;
+        }
+
+        public ControlCollectionBuilder AddLabel(string text, int size)
+        {
+            _contol.Labels.Add(new Label(text, size));
             return this;
         }
 

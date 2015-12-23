@@ -1,6 +1,6 @@
 ﻿namespace FirstStep.Observer
 {
-    using Units;
+    using Game;
 
     /// <summary>
     /// Наблюдатель.
@@ -12,6 +12,6 @@
         /// </summary>
         /// <param name="obj">Юнит.</param>
         /// <param name="eventType">Событие.</param>
-        void OnNotify(MainGame.GameObject obj, EventType eventType);
+        void OnNotify(SimpleGameObject obj, EventType eventType);
     }
 }

@@ -1,4 +1,4 @@
-﻿namespace FirstStep
+﻿namespace FirstStep.Observer
 {
     /// <summary>
     /// Событие.
@@ -8,6 +8,12 @@
         /// <summary>
         /// Золото собрано.
         /// </summary>
-        GoldTaken
+        GoldTaken,
+
+        PlayerWalked,
+
+        GameOver,
+
+        Victory
     }
 }

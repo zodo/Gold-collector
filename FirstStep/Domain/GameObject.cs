@@ -1,8 +1,6 @@
 ﻿namespace FirstStep
 {
-    using System;
-
-    using Domain;
+    using Board;
 
     using Observer;
 
@@ -35,5 +33,4 @@
             }
         }
     }
-    
 }

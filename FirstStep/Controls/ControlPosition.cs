@@ -6,7 +6,9 @@
     public enum ControlPosition
     {
         Top = 4,
+
         Bottom = 8,
+
         Center = 16
     }
 }

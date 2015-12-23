@@ -1,10 +1,8 @@
-﻿namespace FirstStep.Base
+﻿namespace FirstStep.Controls
 {
     using System;
     using System.Collections.Generic;
     using System.Linq;
-
-    using Buttons;
 
     using Game;
 
@@ -22,24 +20,19 @@
         private const int BaseSize = 50;
 
         /// <summary>
+        /// Элементы управления.
+        /// </summary>
+        public readonly List<Control> Contols = new List<Control>();
+
+        /// <summary>
         /// Индекс выбранного элемента.
         /// </summary>
         private int _selectedIndex;
 
         /// <summary>
-        /// Клавиши, нажатые на предыдущем цикле.
-        /// </summary>
-        private Keys[] _previouslyPressed;
-
-        /// <summary>
         /// Обработчик обновления значения.
         /// </summary>
         public Action OnUpdate = () => { };
-
-        /// <summary>
-        /// Элементы управления.
-        /// </summary>
-        public readonly List<Control> Contols = new List<Control>();
 
         /// <summary>
         /// Цвет фона.
@@ -51,7 +44,6 @@
         /// </summary>
         public Color ForegroundColor { get; set; } = Color.Brown;
 
-
         /// <summary>
         /// Координаты.
         /// </summary>
@@ -60,13 +52,10 @@
         /// <summary>
         /// Размер.
         /// </summary>
-        public double Size { get; set; }
+        public double Size { get; set; } = 5;
 
-        private ContolCollection()
-        {
-            _previouslyPressed = Keyboard.GetState().GetPressedKeys();
-        }
-        
+        public List<Label> Labels { get; set; } = new List<Label>();
+
         /// <summary>
         /// Создать набор.
         /// </summary>
@@ -82,9 +71,7 @@
         public override void Update()
         {
             OnUpdate();
-
-            var keysPressed = Keyboard.GetState().GetPressedKeys();
-            var firstTime = keysPressed.Except(_previouslyPressed).ToArray();
+            var firstTime = GetKeysWithoutRepitions();
             if (firstTime.Contains(Keys.Down))
             {
                 Down();
@@ -94,8 +81,6 @@
                 Up();
             }
             Contols[_selectedIndex].OnKeysPressed(firstTime);
-
-            _previouslyPressed = keysPressed;
         }
 
         /// <summary>
@@ -104,11 +89,34 @@
         public override void Draw()
         {
             var width = (int)(Size * BaseSize);
-            var height = (int)(Contols.Count * Size * BaseSize / 5);
+            var height = (int)(Contols.Count * Size * BaseSize / 5 + Labels.Sum(l => l.Size * Size * BaseSize / 10));
             var x = (int)(Coordinates.X - width / 2);
             var y = (int)(Coordinates.Y - height / 2);
 
             Game.SpriteBatch.Draw(Game.WhiteRectangle, new Rectangle(x, y, width, height), BackgroundColor);
+
+            if (Labels.Any())
+            {
+                var lbl = Labels.First();
+                var lblW = (int)(Size * BaseSize * lbl.Size / 2);
+                var lblH = (int)(Size * BaseSize / 10 * lbl.Size);
+                var lblx = (int)(Coordinates.X - lblW / 2);
+                var lbly = (int)(y);
+                DrawString(lbl.Caption, new Rectangle(lblx, lbly, lblW, lblH), ForegroundColor);
+                for (int index = 1; index < Labels.Count; index++)
+                {
+                    lbl = Labels[index];
+                    lbly += lblH;
+                    lblW = (int)(Size * BaseSize * lbl.Size / 2);
+                    lblH = (int)(Size * BaseSize / 10 * lbl.Size);
+                    lblx = (int)(Coordinates.X - lblW / 2);
+                    DrawString(lbl.Caption, new Rectangle(lblx, lbly, lblW, lblH), ForegroundColor);
+
+                }
+            }
+           
+
+            y += (int)Labels.Sum(l => l.Size * Size * BaseSize / 10);
 
             for (var i = 0; i < Contols.Count; i++)
             {
@@ -123,12 +131,11 @@
                 {
                     Game.SpriteBatch.Draw(
                         Game.WhiteRectangle,
-                        new Rectangle(ctrlX, (int)(ctrlY + ctrlH - Size), ctrlW, (int)Size),
+                        new Rectangle((int)(ctrlX + BaseSize * Size / 4), (int)(ctrlY + ctrlH - Size), (int)(ctrlW - BaseSize * Size / 2), (int)Size),
                         ForegroundColor);
                 }
             }
         }
-
 
         /// <summary>
         /// Выделить следующий контрол в наборе.
@@ -136,9 +143,14 @@
         private void Down()
         {
             _selectedIndex++;
+            //if (!Contols[_selectedIndex].CanSelect)
+            //{
+            //    _selectedIndex = Contols.Select((x, i) => new { x, i }).Skip(_selectedIndex).FirstOrDefault(x => x.x.CanSelect)?.i ?? _selectedIndex;
+            //}
             if (_selectedIndex >= Contols.Count)
             {
                 _selectedIndex = 0;
+               // _selectedIndex = Contols.Select((x, i) => new { x, i }).Skip(_selectedIndex).FirstOrDefault(x => x.x.CanSelect)?.i ?? _selectedIndex;
             }
         }
 
@@ -153,7 +165,5 @@
                 _selectedIndex = Contols.Count - 1;
             }
         }
-
-        
     }
 }

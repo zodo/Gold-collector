@@ -1,36 +1,24 @@
-﻿
-
-namespace FirstStep
+﻿namespace FirstStep
 {
     using System;
 
-    using Domain;
+    using Board;
 
     using Game.States;
 
     using Microsoft.Xna.Framework;
     using Microsoft.Xna.Framework.Graphics;
-    using Microsoft.Xna.Framework.Input;
-    
 
     /// <summary>
     /// Основной тип с игровым циклом.
     /// </summary>
     public partial class MainGame : Microsoft.Xna.Framework.Game
     {
-        public GraphicsDeviceManager Graphics { get; set; }
-        public SpriteBatch SpriteBatch { get; private set; }
-
-        public SpriteFont Font { get; private set; }
-        public Texture2D WhiteRectangle { get; private set; }
-
         private static BoardSettings _settings = new BoardSettings();
 
-        private IState _state;
-
-        private static MainGame _instance { get; set; }
-
         private static bool _instantied;
+
+        private IState _state;
 
         public MainGame()
         {
@@ -44,6 +32,16 @@ namespace FirstStep
             _instance = this;
         }
 
+        public GraphicsDeviceManager Graphics { get; set; }
+
+        public SpriteBatch SpriteBatch { get; set; }
+
+        public SpriteFont Font { get; private set; }
+
+        public Texture2D WhiteRectangle { get; private set; }
+
+        private static MainGame _instance { get; set; }
+
         /// <summary>
         /// Allows the game to perform any initialization it needs to before starting to run.
         /// This is where it can query for any required services and load any non-graphic
@@ -55,9 +53,10 @@ namespace FirstStep
             // TODO: Add your initialization logic here
             Graphics.PreferredBackBufferWidth = 1024;
             Graphics.PreferredBackBufferHeight = 700;
-            //TargetElapsedTime = TimeSpan.FromSeconds(1.0f / 100.0f);
-            //graphics.SynchronizeWithVerticalRetrace = true;
+
             _state = new MainMenuState();
+            GraphicsDevice.PresentationParameters.RenderTargetUsage = RenderTargetUsage.PreserveContents;
+
             base.Initialize();
         }
 
@@ -82,13 +81,9 @@ namespace FirstStep
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
         {
-            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
-                Exit();
-
             // TODO: Add your update logic here
 
             _state = _state.Update() ?? _state;
-
 
             base.Update(gameTime);
         }
@@ -102,7 +97,7 @@ namespace FirstStep
             GraphicsDevice.Clear(Color.LightGray);
 
             // TODO: Add your drawing code here
-           
+
             SpriteBatch.Begin();
 
             _state.Draw();

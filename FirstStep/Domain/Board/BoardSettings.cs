@@ -1,6 +1,5 @@
-﻿namespace FirstStep.Domain
+﻿namespace FirstStep.Board
 {
-
     /// <summary>
     /// Настройки игры.
     /// </summary>
@@ -31,15 +30,20 @@
         /// </summary>
         public int HolesAmount { get; set; } = 15;
 
+        public bool SmartRobots { get; set; } = true;
+
+        public int Seed { get; set; } = -1;
+
         public BoardSettings Clone()
         {
             return new BoardSettings
             {
-                BoardHeight = BoardHeight, 
+                BoardHeight = BoardHeight,
                 BoardWidth = BoardWidth,
                 RobotsAmount = RobotsAmount,
                 GoldAmount = GoldAmount,
-                HolesAmount = HolesAmount
+                HolesAmount = HolesAmount,
+                SmartRobots = SmartRobots
             };
         }
     }

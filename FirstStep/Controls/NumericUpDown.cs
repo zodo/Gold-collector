@@ -1,4 +1,4 @@
-﻿namespace FirstStep.Buttons
+﻿namespace FirstStep.Controls
 {
     using System;
     using System.Linq;
@@ -11,7 +11,6 @@
     /// </summary>
     public class NumericUpDown : Control
     {
-
         /// <summary>
         /// Максимальное значение.
         /// </summary>
@@ -33,14 +32,19 @@
         private int _value;
 
         /// <summary>
-        /// Создать экземпляр <see cref="NumericUpDown"/>
+        /// Создать экземпляр <see cref="NumericUpDown" />
         /// </summary>
         /// <param name="caption">Имя.</param>
         /// <param name="onChange">Обработчик изменения значения.</param>
         /// <param name="value">Значение по-умолчанию.</param>
         /// <param name="maxValue">Максимальное значение.</param>
         /// <param name="minValue">Минимальное значение.</param>
-        public NumericUpDown(string caption, Action<int> onChange, int value = 0, int maxValue = 100500, int minValue = 0)
+        public NumericUpDown(
+            string caption,
+            Action<int> onChange,
+            int value = 0,
+            int maxValue = 100500,
+            int minValue = 0)
             : base(caption)
         {
             _value = value;
@@ -85,5 +89,10 @@
             //Game.SpriteBatch.Draw(Game.WhiteRectangle, coords, Color.LightSlateGray);
             DrawString($"<- {Caption} : {_value} ->", coords, foreground);
         }
+
+        /// <summary>
+        /// Можно ли выбрать контрол.
+        /// </summary>
+        public override bool CanSelect => true;
     }
 }

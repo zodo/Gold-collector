@@ -5,12 +5,18 @@
     /// <summary>
     /// Базовый класс команды.
     /// </summary>
-    public interface ICommand
+    public abstract class Command
     {
+        protected readonly MoveableUnit Unit;
+
+        protected Command(MoveableUnit unit)
+        {
+            Unit = unit;
+        }
+
         /// <summary>
         /// Выполнить команду.
         /// </summary>
-        /// <param name="moveableUnit">Игрок.</param>
-        void Execute(MoveableUnit moveableUnit);
+        public abstract bool Execute();
     }
 }

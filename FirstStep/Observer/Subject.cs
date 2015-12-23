@@ -2,7 +2,7 @@
 {
     using System.Collections.Generic;
 
-    using Units;
+    using Game;
 
     /// <summary>
     /// Наблюдаемый.
@@ -31,6 +31,7 @@
         /// </summary>
         /// <param name="obj">Юнит.</param>
         /// <param name="eventType">Событие.</param>
-        protected void Notify(MainGame.GameObject obj, EventType eventType) => _observers.ForEach(x => x.OnNotify(obj, eventType));
+        protected void Notify(SimpleGameObject obj, EventType eventType)
+            => _observers.ForEach(x => x.OnNotify(obj, eventType));
     }
 }

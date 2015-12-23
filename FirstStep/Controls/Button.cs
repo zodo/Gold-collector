@@ -1,12 +1,9 @@
-﻿namespace FirstStep.Base
+﻿namespace FirstStep.Controls
 {
     using System;
     using System.Linq;
 
-    using Buttons;
-
     using Microsoft.Xna.Framework;
-    using Microsoft.Xna.Framework.Graphics;
     using Microsoft.Xna.Framework.Input;
 
     /// <summary>
@@ -25,11 +22,12 @@
         private readonly Action<Button> _commandWithArgument;
 
         /// <summary>
-        /// Создать экземпляр <see cref="Button"/>.
+        /// Создать экземпляр <see cref="Button" />.
         /// </summary>
         /// <param name="caption">Имя.</param>
         /// <param name="command">Обработчик нажатия.</param>
-        public Button(string caption, Action command) : base(caption)
+        public Button(string caption, Action command)
+            : base(caption)
         {
             _command = command;
         }
@@ -64,5 +62,10 @@
             //Game.SpriteBatch.Draw(Game.WhiteRectangle, coords, Color.FromNonPremultiplied(0,0,0,0));
             DrawString(Caption, coords, foreground);
         }
+
+        /// <summary>
+        /// Можно ли выбрать контрол.
+        /// </summary>
+        public override bool CanSelect => true;
     }
 }
