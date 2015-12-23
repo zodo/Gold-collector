@@ -2,16 +2,19 @@
 {
     using System.Linq;
 
-    using Board;
-
+    using Domain.Board;
     using Domain.Units;
 
     using Observer;
 
-    using Units;
-
-    public class GameLogic : SimpleGameObject, IObserver
+    /// <summary>
+    /// Игровая логика.
+    /// </summary>
+    public class GameLogic : GameObject, IObserver
     {
+        /// <summary>
+        /// Игровое поле.
+        /// </summary>
         private readonly Board _board;
 
         public GameLogic(Board board)
@@ -22,32 +25,37 @@
         }
 
         /// <summary>
-        /// При изменении.
+        /// При оповещении.
         /// </summary>
-        /// <param name="obj">Юнит.</param>
-        /// <param name="eventType">Событие.</param>
-        public void OnNotify(SimpleGameObject obj, EventType eventType)
+        /// <param name="obj">Игровой объект.</param>
+        /// <param name="gameEvent">Событие.</param>
+        public void OnNotify(GameObject obj, GameEvent gameEvent)
         {
-            Notify(obj, eventType);
+            Notify(obj, gameEvent);
 
-            if (eventType == EventType.GoldTaken)
+            if (gameEvent == GameEvent.GoldTaken)
             {
                 if (!_board.Units.OfType<Gold>().Any())
                 {
-                    Notify(this, EventType.Victory);
+                    Notify(this, GameEvent.Victory);
                 }
             }
-            if (eventType == EventType.PlayerWalked)
+            if (gameEvent == GameEvent.PlayerWalked)
             {
                 if (RobotTouchPlayer())
                 {
-                    Notify(this, EventType.GameOver);
+                    Notify(this, GameEvent.GameOver);
                 }
             }
-
+            if (gameEvent == GameEvent.PlayerTouchRobot)
+            {
+                Notify(this, GameEvent.GameOver);
+            }
         }
 
-       
+        /// <summary>
+        /// Робот настиг игрока.
+        /// </summary>
         private bool RobotTouchPlayer()
         {
             var playerCoords = _board.Player.Coordinates;

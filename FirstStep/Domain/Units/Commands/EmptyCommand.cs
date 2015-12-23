@@ -1,7 +1,8 @@
 ﻿namespace FirstStep.Commands
 {
-    using Actors;
-
+    /// <summary>
+    /// Пустая команда.
+    /// </summary>
     public class EmptyCommand : Command
     {
         public EmptyCommand()
@@ -12,6 +13,7 @@
         /// <summary>
         /// Выполнить команду.
         /// </summary>
+        /// <returns>Успешность выполнения.</returns>
         public override bool Execute()
         {
             return false;

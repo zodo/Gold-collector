@@ -8,10 +8,10 @@
     public interface IObserver
     {
         /// <summary>
-        /// При изменении.
+        /// При оповещении.
         /// </summary>
-        /// <param name="obj">Юнит.</param>
-        /// <param name="eventType">Событие.</param>
-        void OnNotify(SimpleGameObject obj, EventType eventType);
+        /// <param name="obj">Игровой объект.</param>
+        /// <param name="gameEvent">Событие.</param>
+        void OnNotify(GameObject obj, GameEvent gameEvent);
     }
 }

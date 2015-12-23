@@ -4,16 +4,17 @@
     using System.Collections.Generic;
     using System.Linq;
 
-    using FirstStep.Board;
-
     /// <summary>
     /// Калькулятор оптимального пути.
     /// </summary>
     public static class PathFinder
     {
+        /// <summary>
+        /// Множество оберток клеток.
+        /// </summary>
         private static HashSet<CellWrapper> _wrappers;
 
-        private static Random _random = new Random(0);
+        private static readonly Random _random = new Random(0);
 
         /// <summary>
         /// Получить путь.
@@ -37,13 +38,15 @@
                 {
                     return new Path(endWrapper);
                 }
-                var optimal = opened.GroupBy(x => x.FullDistance).OrderBy(c => c.Key).First().OrderBy(x => _random.Next()).First();
+                var optimal =
+                    opened.GroupBy(x => x.FullDistance).OrderBy(c => c.Key).First().OrderBy(x => _random.Next()).First();
                 opened.Remove(optimal);
                 closed.Add(optimal);
                 var neighbours =
-                    optimal.Cell.CellsAround.Where(neighbour => neighbour.AllowedToMove)
+                    optimal.Cell.CellsAround.Where(neighbour => neighbour.IsHole)
                         .Where(neighbour => !closed.Select(x => x.Cell).Contains(neighbour))
-                        .Where(x => walkOnUnits || !start.Board.Units.Select(u => u.Coordinates).Contains(x.Coordinates))
+                        .Where(
+                            x => walkOnUnits || !start.Board.Units.Select(u => u.Coordinates).Contains(x.Coordinates))
                         .Select(CreateWrapper)
                         .ToList();
                 foreach (var neighbour in neighbours)
@@ -66,6 +69,11 @@
             return new Path();
         }
 
+        /// <summary>
+        /// Создать и закешировать обертку.
+        /// </summary>
+        /// <param name="cell"></param>
+        /// <returns></returns>
         private static CellWrapper CreateWrapper(Cell cell)
         {
             var wrapper = _wrappers.SingleOrDefault(x => x.Cell == cell);
@@ -78,19 +86,30 @@
             return wrapper;
         }
 
+        /// <summary>
+        /// Есть ли путь.
+        /// </summary>
         public static bool CanReach(Cell one, Cell two)
         {
             return GetPath(one, two).Any();
         }
 
+        
         private static double Distance(CellWrapper start, CellWrapper end)
         {
             //return Math.Abs(start.Cell.Coordinates.X - end.Cell.Coordinates.X)
             //       + Math.Abs(start.Cell.Coordinates.Y - end.Cell.Coordinates.Y);
-            return Math.Sqrt(Math.Pow(start.Cell.Coordinates.X - end.Cell.Coordinates.X, 2) + Math.Pow(start.Cell.Coordinates.Y - end.Cell.Coordinates.Y, 2));
-
+            return
+                Math.Sqrt(
+                    Math.Pow(start.Cell.Coordinates.X - end.Cell.Coordinates.X, 2)
+                    + Math.Pow(start.Cell.Coordinates.Y - end.Cell.Coordinates.Y, 2));
         }
 
+        /// <summary>
+        /// Получить расстояние между клетками.
+        /// </summary>
+        /// <param name="from">От.</param>
+        /// <param name="to">До.</param>
         public static double Distance(Cell from, Cell to)
         {
             return Distance(new CellWrapper(from), new CellWrapper(to));

@@ -8,17 +8,29 @@
 
     public class CheckBox : Control
     {
+        /// <summary>
+        /// Действие При оповещении.
+        /// </summary>
         private readonly Action<bool> _onChange;
 
+        /// <summary>
+        /// Отмечен.
+        /// </summary>
         private bool _check;
 
+        /// <summary>
+        /// Конструктор <see cref="CheckBox"/>
+        /// </summary>
+        /// <param name="caption">Имя.</param>
+        /// <param name="onChange">Действие При оповещении.</param>
+        /// <param name="check">Отмечен?</param>
         public CheckBox(string caption, Action<bool> onChange, bool check = true)
             : base(caption)
         {
             _onChange = onChange;
             _check = check;
         }
-
+        
         /// <summary>
         /// Обработать нажатые клавиши.
         /// </summary>
@@ -41,10 +53,5 @@
         {
             DrawString($"   {Caption} : {_check}   ", coords, foreground);
         }
-
-        /// <summary>
-        /// Можно ли выбрать контрол.
-        /// </summary>
-        public override bool CanSelect => true;
     }
 }

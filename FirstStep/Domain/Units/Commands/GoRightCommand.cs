@@ -1,7 +1,10 @@
 ﻿namespace FirstStep.Commands
 {
-    using Actors;
+    using Domain.Units;
 
+    /// <summary>
+    /// Команда пойти вправо.
+    /// </summary>
     public class GoRightCommand : Command
     {
         public GoRightCommand(ActiveUnit unit)
@@ -12,6 +15,7 @@
         /// <summary>
         /// Выполнить команду.
         /// </summary>
+        /// <returns>Успешность выполнения.</returns>
         public override bool Execute()
         {
             return Unit.GoRight();

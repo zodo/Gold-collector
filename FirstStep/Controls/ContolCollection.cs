@@ -54,7 +54,10 @@
         /// </summary>
         public double Size { get; set; } = 5;
 
-        public List<Label> Labels { get; set; } = new List<Label>();
+        /// <summary>
+        /// Заголовки.
+        /// </summary>
+        public List<Header> Labels { get; } = new List<Header>();
 
         /// <summary>
         /// Создать набор.
@@ -101,9 +104,9 @@
                 var lblW = (int)(Size * BaseSize * lbl.Size / 2);
                 var lblH = (int)(Size * BaseSize / 10 * lbl.Size);
                 var lblx = (int)(Coordinates.X - lblW / 2);
-                var lbly = (int)(y);
+                var lbly = y;
                 DrawString(lbl.Caption, new Rectangle(lblx, lbly, lblW, lblH), ForegroundColor);
-                for (int index = 1; index < Labels.Count; index++)
+                for (var index = 1; index < Labels.Count; index++)
                 {
                     lbl = Labels[index];
                     lbly += lblH;
@@ -111,10 +114,8 @@
                     lblH = (int)(Size * BaseSize / 10 * lbl.Size);
                     lblx = (int)(Coordinates.X - lblW / 2);
                     DrawString(lbl.Caption, new Rectangle(lblx, lbly, lblW, lblH), ForegroundColor);
-
                 }
             }
-           
 
             y += (int)Labels.Sum(l => l.Size * Size * BaseSize / 10);
 
@@ -131,7 +132,11 @@
                 {
                     Game.SpriteBatch.Draw(
                         Game.WhiteRectangle,
-                        new Rectangle((int)(ctrlX + BaseSize * Size / 4), (int)(ctrlY + ctrlH - Size), (int)(ctrlW - BaseSize * Size / 2), (int)Size),
+                        new Rectangle(
+                            (int)(ctrlX + BaseSize * Size / 4),
+                            (int)(ctrlY + ctrlH - Size),
+                            (int)(ctrlW - BaseSize * Size / 2),
+                            (int)Size),
                         ForegroundColor);
                 }
             }
@@ -143,14 +148,9 @@
         private void Down()
         {
             _selectedIndex++;
-            //if (!Contols[_selectedIndex].CanSelect)
-            //{
-            //    _selectedIndex = Contols.Select((x, i) => new { x, i }).Skip(_selectedIndex).FirstOrDefault(x => x.x.CanSelect)?.i ?? _selectedIndex;
-            //}
             if (_selectedIndex >= Contols.Count)
             {
                 _selectedIndex = 0;
-               // _selectedIndex = Contols.Select((x, i) => new { x, i }).Skip(_selectedIndex).FirstOrDefault(x => x.x.CanSelect)?.i ?? _selectedIndex;
             }
         }
 

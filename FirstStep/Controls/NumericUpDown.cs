@@ -52,7 +52,7 @@
             _minValue = minValue;
             _onChange = onChange;
         }
-
+        
         /// <summary>
         /// Обработать нажатые клавиши.
         /// </summary>
@@ -89,10 +89,5 @@
             //Game.SpriteBatch.Draw(Game.WhiteRectangle, coords, Color.LightSlateGray);
             DrawString($"<- {Caption} : {_value} ->", coords, foreground);
         }
-
-        /// <summary>
-        /// Можно ли выбрать контрол.
-        /// </summary>
-        public override bool CanSelect => true;
     }
 }

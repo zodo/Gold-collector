@@ -1,19 +1,34 @@
 ﻿namespace FirstStep.Game.States
 {
-    using Board;
+    using Domain.Board;
 
     using Microsoft.Xna.Framework.Input;
 
     using Observer;
 
-    public class GameplayState : SimpleGameObject, IState, IObserver
+    /// <summary>
+    /// Состояние нахождения в игровом процессе.
+    /// </summary>
+    public class GameplayState : GameObject, IState, IObserver
     {
+        /// <summary>
+        /// Игровое поле.
+        /// </summary>
         private readonly Board _board;
 
+        /// <summary>
+        /// Игровая логика.
+        /// </summary>
         private readonly GameLogic _gameLogic;
 
-        private readonly StatsCounter _statsCounter;
+        /// <summary>
+        /// Отображатель доп. инфы.
+        /// </summary>
+        private readonly Hud _hud;
 
+        /// <summary>
+        /// Новое состояние.
+        /// </summary>
         private IState _newState;
 
         public GameplayState()
@@ -26,27 +41,31 @@
             _gameLogic = new GameLogic(_board);
             _gameLogic.AddObserver(this);
 
-            _statsCounter = new StatsCounter();
-            _gameLogic.AddObserver(_statsCounter);
+            _hud = new Hud();
+            _gameLogic.AddObserver(_hud);
         }
 
         /// <summary>
-        /// При изменении.
+        /// При оповещении.
         /// </summary>
-        /// <param name="obj">Юнит.</param>
-        /// <param name="eventType">Событие.</param>
-        public void OnNotify(SimpleGameObject obj, EventType eventType)
+        /// <param name="obj">Игровой объект.</param>
+        /// <param name="gameEvent">Событие.</param>
+        public void OnNotify(GameObject obj, GameEvent gameEvent)
         {
-            if (eventType == EventType.GameOver)
+            if (gameEvent == GameEvent.GameOver)
             {
-                _newState = new GameOverState(false, _statsCounter);
+                _newState = new GameOverState(false, _hud);
             }
-            if (eventType == EventType.Victory)
+            if (gameEvent == GameEvent.Victory)
             {
-                _newState = new GameOverState(true, _statsCounter);
+                _newState = new GameOverState(true, _hud);
             }
         }
 
+        /// <summary>
+        /// Обновиться.
+        /// </summary>
+        /// <returns>Новое состояние, либо null, если состояние не изменилось.</returns>
         public IState Update()
         {
             if (Keyboard.GetState().IsKeyDown(Keys.Escape))
@@ -57,10 +76,13 @@
             return _newState;
         }
 
+        /// <summary>
+        /// Отрисоваться.
+        /// </summary>
         public void Draw()
         {
             _board.Draw();
-            _statsCounter.Draw();
+            _hud.Draw();
         }
     }
 }

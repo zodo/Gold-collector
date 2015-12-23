@@ -9,7 +9,7 @@
     /// <summary>
     /// Состояние нахождения в главном меню.
     /// </summary>
-    public class MainMenuState : SimpleGameObject, IState
+    public class MainMenuState : GameObject, IState
     {
         /// <summary>
         /// Набор элентов управления.

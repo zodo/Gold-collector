@@ -1,15 +1,13 @@
 ﻿namespace FirstStep.Controls
 {
     using System;
-
     using Game;
-
     using Microsoft.Xna.Framework;
 
     /// <summary>
     /// Строитель набора элементов управления.
     /// </summary>
-    public class ControlCollectionBuilder : SimpleGameObject
+    public class ControlCollectionBuilder : GameObject
     {
         /// <summary>
         /// Набор элементов управления.
@@ -40,13 +38,11 @@
             _contol.Coordinates = coords;
             return this;
         }
-
-        public ControlCollectionBuilder ShiftOn(Vector2 shift)
-        {
-            _contol.Coordinates += shift;
-            return this;
-        }
-
+        
+        /// <summary>
+        /// Вывести набор в указанное место.
+        /// </summary>
+        /// <param name="position">Место.</param>
         public ControlCollectionBuilder AtCoords(ControlPosition position)
         {
             var coords = new Vector2();
@@ -78,9 +74,15 @@
             return this;
         }
 
-        public ControlCollectionBuilder AddLabel(string text, int size)
+        /// <summary>
+        /// Добавить заголовок.
+        /// </summary>
+        /// <param name="text">Текст.</param>
+        /// <param name="size">Размер.</param>
+        /// <returns></returns>
+        public ControlCollectionBuilder AddHeader(string text, int size)
         {
-            _contol.Labels.Add(new Label(text, size));
+            _contol.Labels.Add(new Header(text, size));
             return this;
         }
 

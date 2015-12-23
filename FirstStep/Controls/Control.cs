@@ -8,8 +8,9 @@
     /// <summary>
     /// Базовый класс экранного элемента управления.
     /// </summary>
-    public abstract class Control : SimpleGameObject
+    public abstract class Control : GameObject
     {
+        
         protected Control(string caption)
         {
             Caption = caption;
@@ -19,7 +20,7 @@
         /// Имя.
         /// </summary>
         public string Caption { get; set; }
-
+        
         /// <summary>
         /// Обработать нажатые клавиши.
         /// </summary>
@@ -32,10 +33,5 @@
         /// <param name="coords">Координаты.</param>
         /// <param name="foreground">Цвет переднего плана.</param>
         public abstract void DrawAt(Rectangle coords, Color foreground);
-
-        /// <summary>
-        /// Можно ли выбрать контрол.
-        /// </summary>
-        public abstract bool CanSelect { get; }
     }
 }

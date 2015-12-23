@@ -1,4 +1,4 @@
-﻿namespace FirstStep.Board
+﻿namespace FirstStep.Domain.Board
 {
     using System.Collections.Generic;
     using System.Linq;
@@ -7,28 +7,45 @@
 
     using Microsoft.Xna.Framework;
 
+    /// <summary>
+    /// Клетка игрового поля.
+    /// </summary>
     public class Cell : InteractiveGameObject
     {
+        /// <summary>
+        /// Направления до соседей.
+        /// </summary>
         private readonly Vector2[] _directions =
         {
-            new Vector2(0, 1), new Vector2(1, 0), new Vector2(0, -1), new Vector2(-1, 0)
+            new Vector2(0, 1), new Vector2(1, 0), new Vector2(0, -1),
+            new Vector2(-1, 0)
         };
 
-        public Cell(Board board, Vector2 coordinates, bool allowedToMove)
+        public Cell(Board board, Vector2 coordinates, bool isHole)
         {
             Board = board;
             Coordinates = coordinates;
-            AllowedToMove = allowedToMove;
+            IsHole = isHole;
         }
 
+        /// <summary>
+        /// Игровое поле.
+        /// </summary>
         public Board Board { get; set; }
 
+        /// <summary>
+        /// Координаты.
+        /// </summary>
         public Vector2 Coordinates { get; set; }
 
-        public bool AllowedToMove { get; }
+        /// <summary>
+        /// Является отверстием.
+        /// </summary>
+        public bool IsHole { get; }
 
-        public double FullDistance { get; set; }
-
+        /// <summary>
+        /// Соседи.
+        /// </summary>
         public IEnumerable<Cell> CellsAround
         {
             get
@@ -51,7 +68,7 @@
         /// </summary>
         public override void Draw()
         {
-            var color = AllowedToMove ? Color.DarkGray : Color.Black;
+            var color = IsHole ? Color.DarkGray : Color.Black;
             Game.SpriteBatch.Draw(
                 Game.WhiteRectangle,
                 new Rectangle((int)(Coordinates.X * 50) + 5, (int)(Coordinates.Y * 50) + 5, 40, 40),

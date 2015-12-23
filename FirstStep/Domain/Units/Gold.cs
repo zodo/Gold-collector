@@ -1,14 +1,15 @@
 ﻿namespace FirstStep.Domain.Units
 {
-    using FirstStep.Board;
-    using FirstStep.Units;
-
+    using Board;
     using Game;
 
     using Microsoft.Xna.Framework;
 
     using Observer;
 
+    /// <summary>
+    /// Золото.
+    /// </summary>
     public class Gold : Unit
     {
         public Gold(Board board, Vector2 coords)
@@ -35,21 +36,21 @@
         }
 
         /// <summary>
-        /// При изменении.
+        /// При оповещении.
         /// </summary>
-        /// <param name="obj">Юнит.</param>
-        /// <param name="eventType">Событие.</param>
-        public override void OnNotify(SimpleGameObject obj, EventType eventType)
+        /// <param name="obj">Игровой объект.</param>
+        /// <param name="gameEvent">Событие.</param>
+        public override void OnNotify(GameObject obj, GameEvent gameEvent)
         {
             if (obj is Player)
             {
-                if (eventType == EventType.PlayerWalked)
+                if (gameEvent == GameEvent.PlayerWalked)
                 {
                     if (Board.Player.Coordinates == Coordinates)
                     {
                         Board.Units.Remove(this);
                         Board.Player.RemoveObserver(this);
-                        Notify(this, EventType.GoldTaken);
+                        Notify(this, GameEvent.GoldTaken);
                     }
                 }
             }

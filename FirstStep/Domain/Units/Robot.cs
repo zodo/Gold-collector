@@ -1,33 +1,38 @@
 ﻿namespace FirstStep.Domain.Units
 {
-    using System;
-
-    using Actors;
-
     using AI;
-
-    using FirstStep.Board;
-    using FirstStep.Units;
-
+    using Board;
     using Game;
-
     using Microsoft.Xna.Framework;
-
     using Observer;
 
+    /// <summary>
+    /// Робот.
+    /// </summary>
     public class Robot : ActiveUnit
     {
+        /// <summary>
+        /// ИИ робота.
+        /// </summary>
         private readonly RobotAI _ai;
 
+        /// <summary>
+        /// Заморожен еще на N шагов.
+        /// </summary>
         private int _freezeForSteps = -1;
 
-        public bool Freezed => _freezeForSteps >= 0;
+        /// <summary>
+        /// Заморожен?
+        /// </summary>
+        private bool Freezed => _freezeForSteps >= 0;
+
 
         public Robot(Board board, Vector2 coords, RobotAI ai)
             : base(board, coords)
         {
             _ai = ai;
         }
+
 
         /// <summary>
         /// Обновить состояние.
@@ -49,15 +54,15 @@
         }
 
         /// <summary>
-        /// При изменении.
+        /// При оповещении.
         /// </summary>
-        /// <param name="obj">Юнит.</param>
-        /// <param name="eventType">Событие.</param>
-        public override void OnNotify(SimpleGameObject obj, EventType eventType)
+        /// <param name="obj">Игровой объект.</param>
+        /// <param name="gameEvent">Событие.</param>
+        public override void OnNotify(GameObject obj, GameEvent gameEvent)
         {
             if (obj is Player)
             {
-                if (eventType == EventType.PlayerWalked)
+                if (gameEvent == GameEvent.PlayerWalked)
                 {
                     if (Freezed)
                     {
@@ -68,7 +73,7 @@
                         _ai.NextTurn(this).Execute();
                     }
                 }
-                if (eventType == EventType.WeaponUsed)
+                if (gameEvent == GameEvent.WeaponUsed)
                 {
                     if (Vector2.Distance(Board.Player.Coordinates, Coordinates) < 1.5)
                     {
@@ -78,9 +83,6 @@
             }
         }
 
-        public override bool Act()
-        {
-            return true;
-        }
+        public override bool Act() => true;
     }
 }

@@ -2,8 +2,6 @@
 {
     using System.Collections.Generic;
 
-    using Game;
-
     /// <summary>
     /// Наблюдаемый.
     /// </summary>
@@ -17,21 +15,21 @@
         /// <summary>
         /// Добавить наблюдателя.
         /// </summary>
-        /// <param name="observer"></param>
+        /// <param name="observer">Наблюдатель.</param>
         public void AddObserver(IObserver observer) => _observers.Add(observer);
 
         /// <summary>
         /// Удалить наблюдателя.
         /// </summary>
-        /// <param name="observer"></param>
+        /// <param name="observer">Наблюдатель.</param>
         public void RemoveObserver(IObserver observer) => _observers.Remove(observer);
 
         /// <summary>
         /// Уведомить подписчиков.
         /// </summary>
-        /// <param name="obj">Юнит.</param>
-        /// <param name="eventType">Событие.</param>
-        protected void Notify(SimpleGameObject obj, EventType eventType)
-            => _observers.ForEach(x => x.OnNotify(obj, eventType));
+        /// <param name="obj">Игровой объект.</param>
+        /// <param name="gameEvent">Событие.</param>
+        protected void Notify(GameObject obj, GameEvent gameEvent)
+            => _observers.ForEach(x => x.OnNotify(obj, gameEvent));
     }
 }

@@ -2,14 +2,16 @@
 {
     using System.Linq;
 
+    using Board;
     using Board.PathFinding;
 
     using Commands;
 
-    using FirstStep.Board;
-
     using Units;
 
+    /// <summary>
+    /// ИИ с поиском пути.
+    /// </summary>
     public class RobotSmartAI : RobotAI
     {
         public RobotSmartAI(Board board)
@@ -17,6 +19,9 @@
         {
         }
 
+        /// <summary>
+        /// Получить инструкцию.
+        /// </summary>
         public override Command NextTurn(Robot robot)
         {
             var path = PathFinder.GetPath(robot.CurrentCell, Board.Player.CurrentCell, false);

@@ -1,6 +1,6 @@
 ﻿namespace FirstStep.Commands
 {
-    using Actors;
+    using Domain.Units;
 
     /// <summary>
     /// Комманда пойти влево.
@@ -15,7 +15,7 @@
         /// <summary>
         /// Выполнить команду.
         /// </summary>
-        /// <param name="moveableUnit">Игрок.</param>
+        /// <returns>Успешность выполнения.</returns>
         public override bool Execute()
         {
             return Unit.GoLeft();

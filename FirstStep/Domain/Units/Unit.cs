@@ -1,32 +1,41 @@
-﻿namespace FirstStep.Units
+﻿namespace FirstStep.Domain.Units
 {
     using Board;
-
     using Game;
-
     using Microsoft.Xna.Framework;
-
     using Observer;
 
+    /// <summary>
+    /// Юнит.
+    /// </summary>
     public abstract class Unit : InteractiveGameObject, IObserver
     {
-        public Unit(Board board, Vector2 coords)
+        protected Unit(Board board, Vector2 coords)
         {
             Board = board;
             Coordinates = coords;
         }
 
+        /// <summary>
+        /// Координаты.
+        /// </summary>
         public Vector2 Coordinates { get; set; }
 
-        public Board Board { get; }
+        /// <summary>
+        /// Игровое поле.
+        /// </summary>
+        protected Board Board { get; }
 
+        /// <summary>
+        /// Клетка, на которой стоит юнит.
+        /// </summary>
         public Cell CurrentCell => Board[Coordinates];
 
         /// <summary>
-        /// При изменении.
+        /// При оповещении.
         /// </summary>
-        /// <param name="obj">Юнит.</param>
-        /// <param name="eventType">Событие.</param>
-        public abstract void OnNotify(SimpleGameObject obj, EventType eventType);
+        /// <param name="obj">Игровой объект.</param>
+        /// <param name="gameEvent">Событие.</param>
+        public abstract void OnNotify(GameObject obj, GameEvent gameEvent);
     }
 }

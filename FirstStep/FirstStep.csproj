@@ -39,7 +39,7 @@
     <ApplicationIcon>Icon.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="Controls\Label.cs" />
+    <Compile Include="Controls\Header.cs" />
     <Compile Include="Domain\Units\Commands\ActCommand.cs" />
     <Compile Include="Game\GameLogic.cs" />
     <Compile Include="Domain\Units\Commands\EmptyCommand.cs" />
@@ -72,12 +72,11 @@
     <Compile Include="Game\States\GameOverState.cs" />
     <Compile Include="Game\States\MainMenuState.cs" />
     <Compile Include="Game\States\PauseState.cs" />
-    <Compile Include="Game\StatsCounter.cs" />
-    <Compile Include="Observer\EventType.cs" />
+    <Compile Include="Game\Hud.cs" />
+    <Compile Include="Observer\GameEvent.cs" />
     <Compile Include="Domain\GameObject.cs" />
     <Compile Include="Game\MainGame.cs" />
     <Compile Include="Domain\InteractiveGameObject.cs" />
-    <Compile Include="Domain\SimpleGameObject.cs" />
     <Compile Include="Game\States\IState.cs" />
     <Compile Include="Game\States\OptionsState.cs" />
     <Compile Include="Game\States\GameplayState.cs" />

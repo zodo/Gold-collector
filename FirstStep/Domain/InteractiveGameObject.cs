@@ -7,7 +7,7 @@
     /// <summary>
     /// Интерактивный игровой объект.
     /// </summary>
-    public abstract class InteractiveGameObject : SimpleGameObject
+    public abstract class InteractiveGameObject : GameObject
     {
         /// <summary>
         /// Клавиши, нажатые на предыдущем цикле.
@@ -29,7 +29,11 @@
         /// </summary>
         public abstract void Draw();
 
-        public Keys[] GetKeysWithoutRepitions()
+        /// <summary>
+        /// Получить нажатые впервые клавиши.
+        /// </summary>
+        /// <returns></returns>
+        protected Keys[] GetKeysWithoutRepitions()
         {
             var keysPressed = Keyboard.GetState().GetPressedKeys();
             var firstTime = keysPressed.Except(_previouslyPressed).ToArray();

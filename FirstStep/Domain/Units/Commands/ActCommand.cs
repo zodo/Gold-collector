@@ -1,9 +1,10 @@
 ﻿namespace FirstStep.Domain.Units.Commands
 {
-    using Actors;
-
     using FirstStep.Commands;
 
+    /// <summary>
+    /// Команда выполнить действие.
+    /// </summary>
     public class ActCommand : Command
     {
         public ActCommand(ActiveUnit unit)

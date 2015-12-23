@@ -2,17 +2,23 @@
 {
     using System;
     using System.Linq;
-
-    using Actors;
-
-    using Board;
-
+    
+    using Domain.Board;
+    using Domain.Units;
     using Domain.Units.Commands;
 
     using Microsoft.Xna.Framework.Input;
 
+    /// <summary>
+    /// Фабрика команд.
+    /// </summary>
     public static class CommandFactory
     {
+        /// <summary>
+        /// Создать <see cref="Command"/>
+        /// </summary>
+        /// <param name="unit">Юнит.</param>
+        /// <param name="pressed">Нажатые клавиши.</param>
         public static Command Create(ActiveUnit unit, Keys[] pressed)
         {
             if (pressed.Contains(Keys.Left))
@@ -38,6 +44,11 @@
             return new EmptyCommand();
         }
 
+        /// <summary>
+        /// Создать <see cref="Command"/>
+        /// </summary>
+        /// <param name="unit">Юнит.</param>
+        /// <param name="next">Ячейка, на которую надо перейти.</param>
         public static Command Create(ActiveUnit unit, Cell next)
         {
             if (next == null)

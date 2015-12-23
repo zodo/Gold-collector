@@ -1,31 +1,36 @@
 ﻿namespace FirstStep.Game
 {
-    using System;
-
     using Controls;
-
     using Microsoft.Xna.Framework;
-
     using States;
 
-    public class GameOverState : SimpleGameObject, IState
+    /// <summary>
+    /// Состояние нахождения на экране конца игры.
+    /// </summary>
+    public class GameOverState : GameObject, IState
     {
-        private ContolCollection _contolCollection;
+        /// <summary>
+        /// Набор элементов управления.
+        /// </summary>
+        private readonly ContolCollection _contols;
 
-
+        /// <summary>
+        /// Новое состояние.
+        /// </summary>
         private IState _newState;
 
-        public GameOverState(bool isVictory, StatsCounter stats)
+        public GameOverState(bool isVictory, Hud stats)
         {
             var str = isVictory ? "WIN" : "FAIL";
-            _contolCollection = ContolCollection.Create()
-                .AtCoords(ControlPosition.Center)
-                .SetSize(5)
-                .WithBackground(Color.Transparent)
-                .AddLabel(str, 6)
-                .AddLabel(stats.ToString(), 3)
-                .AddControl(new Button("Restart", () => _newState = new GameplayState()))
-                .AddControl(new Button("Main menu", () => _newState = new MainMenuState()));
+            _contols =
+                ContolCollection.Create()
+                    .AtCoords(ControlPosition.Center)
+                    .SetSize(5)
+                    .WithBackground(Color.Transparent)
+                    .AddHeader(str, 6)
+                    .AddHeader(stats.ToString(), 3)
+                    .AddControl(new Button("Restart", () => _newState = new GameplayState()))
+                    .AddControl(new Button("Main menu", () => _newState = new MainMenuState()));
         }
 
         /// <summary>
@@ -34,7 +39,7 @@
         /// <returns>Новое состояние, либо null, если состояние не изменилось.</returns>
         public IState Update()
         {
-            _contolCollection.Update();
+            _contols.Update();
             return _newState;
         }
 
@@ -43,17 +48,8 @@
         /// </summary>
         public void Draw()
         {
-            _contolCollection.Draw();
+            _contols.Draw();
         }
-
-        private Rectangle GetMessageCoords()
-        {
-            var width = 400;
-            var height = 200;
-            var x = Game.Graphics.PreferredBackBufferWidth / 2 - width / 2;
-            var y = Game.Graphics.PreferredBackBufferHeight / 2 - 100 - height / 2;
-            return new Rectangle(x, y, width, height);
-            
-        }
+        
     }
 }

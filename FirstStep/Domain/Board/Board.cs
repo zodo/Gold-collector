@@ -1,4 +1,4 @@
-﻿namespace FirstStep.Board
+﻿namespace FirstStep.Domain.Board
 {
     using System;
     using System.Collections;
@@ -10,23 +10,87 @@
     using Microsoft.Xna.Framework;
     using Microsoft.Xna.Framework.Graphics;
 
-    using Observer;
-
     using Units;
 
+    /// <summary>
+    /// Игровое поле.
+    /// </summary>
     public class Board : InteractiveGameObject, IEnumerable<Cell>
     {
-        private readonly Dictionary<int, Cell> _data = new Dictionary<int, Cell>();
+        /// <summary>
+        /// Клетки поля.
+        /// </summary>
+        private Dictionary<int, Cell> Data { get; } = new Dictionary<int, Cell>();
+        
+        /// <summary>
+        /// Список юнитов.
+        /// </summary>
+        public List<Unit> Units { get; } = new List<Unit>();
 
-        public int Height { get; }
+        /// <summary>
+        /// Игрок.
+        /// </summary>
+        public Player Player { get; set; }
 
-        public int Width { get; }
+        /// <summary>
+        /// Временный буфер для отрисовки.
+        /// </summary>
+        private RenderTarget2D Buffer { get; }
 
+        /// <summary>
+        /// Получить клетку по координатам.
+        /// </summary>
+        /// <param name="coords">Кооридинаты.</param>
+        public Cell this[Vector2 coords]
+        {
+            get { return Data[(int)(coords.X * 1000 + coords.Y)]; }
+            set
+            {
+                if (!IsOnMap(coords))
+                    throw new ArgumentOutOfRangeException("Coords out of range");
+                
+                var key = (int)(coords.X * 1000 + coords.Y);
+                if (Data.Keys.Contains(key))
+                {
+                    Data[key] = value;
+                }
+                else
+                {
+                    Data.Add(key, value);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Координаты соответствуют клеткам поля.
+        /// </summary>
+        public bool IsOnMap(Vector2 coords) => coords.X >= 0 && coords.X < Width && coords.Y >= 0 && coords.Y < Height;
+
+        /// <summary>
+        /// Можно ли переместится по координатам.
+        /// </summary>
+        public bool CanGoTo(Vector2 coords) => IsOnMap(coords) && this[coords].IsHole;
+
+        /// <summary>
+        /// Высота.
+        /// </summary>
+        private int Height { get; }
+
+        /// <summary>
+        /// Ширина.
+        /// </summary>
+        private int Width { get; }
+
+        /// <summary>
+        /// Создать экземпляр <see cref="Board"/>
+        /// </summary>
         private Board(int width, int height)
         {
             Width = width;
             Height = height;
-            FillDataWithGround(width, height);
+            FillDataWithGround();
+            Player = new Player(this, new Vector2(Width / 2, Height / 2));
+
             Buffer = new RenderTarget2D(
                 Game.GraphicsDevice,
                 width * 50,
@@ -35,77 +99,29 @@
                 Game.GraphicsDevice.PresentationParameters.BackBufferFormat,
                 DepthFormat.Depth24);
         }
-
-        public List<Unit> Units { get; } = new List<Unit>();
-
-        public Player Player { get; set; }
-
-        public RenderTarget2D Buffer { get; }
-
-        public Cell this[Vector2 coords]
-        {
-            get
-            {
-                var key = (int)(coords.X * 1000 + coords.Y);
-                return _data[key];
-            }
-            set
-            {
-                if (!IsOnMap(coords))
-                {
-                    throw new ArgumentOutOfRangeException("Coords out of range");
-                }
-                var key = (int)(coords.X * 1000 + coords.Y);
-                if (_data.Keys.Contains(key))
-                {
-                    _data[key] = value;
-                }
-                else
-                {
-                    _data.Add(key, value);
-                }
-            }
-        }
-
+        
         /// <summary>
-        /// Возвращает перечислитель, выполняющий итерацию в коллекции.
+        /// Создать <see cref="Board"/>
         /// </summary>
-        /// <returns>
-        /// Интерфейс <see cref="T:System.Collections.Generic.IEnumerator`1" />, который может использоваться для перебора
-        /// элементов коллекции.
-        /// </returns>
-        public IEnumerator<Cell> GetEnumerator()
-        {
-            return _data.Values.GetEnumerator();
-        }
-
-        /// <summary>
-        /// Возвращает перечислитель, который осуществляет перебор элементов коллекции.
-        /// </summary>
-        /// <returns>
-        /// Объект <see cref="T:System.Collections.IEnumerator" />, который может использоваться для перебора элементов коллекции.
-        /// </returns>
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            return GetEnumerator();
-        }
-
-        public bool IsOnMap(Vector2 coords) => coords.X >= 0 && coords.X < Width && coords.Y >= 0 && coords.Y < Height;
-
-        public bool CanGoTo(Vector2 coords) => IsOnMap(coords) && this[coords].AllowedToMove;
-
+        /// <param name="width">Ширина.</param>
+        /// <param name="height">Высота.</param>
+        /// <param name="seed">Номер карты.</param>
+        /// <returns></returns>
         public static BoardBuilder Create(int width, int height, int seed = -1)
         {
             return new BoardBuilder(new Board(width, height), seed);
         }
 
-        private void FillDataWithGround(int width, int height)
+        /// <summary>
+        /// Заполнить поле землей.
+        /// </summary>
+        private void FillDataWithGround()
         {
-            for (var x = 0; x < width; x++)
+            for (var x = 0; x < Width; x++)
             {
-                for (var y = 0; y < height; y++)
+                for (var y = 0; y < Height; y++)
                 {
-                    this[new Vector2(x,y)] = new Cell(this, new Vector2(x, y), true);
+                    this[new Vector2(x, y)] = new Cell(this, new Vector2(x, y), true);
                 }
             }
         }
@@ -116,6 +132,7 @@
         public override void Update()
         {
             Player.Update();
+            Units.ForEach(u => u.Update());
         }
 
         /// <summary>
@@ -135,17 +152,49 @@
                 }
                 Player.Draw();
             }
-            Game.SpriteBatch.Draw(
-                Buffer,
-                new Rectangle(0, 0, Game.Graphics.PreferredBackBufferWidth, Game.Graphics.PreferredBackBufferHeight),
-                Color.White);
-        }
 
-        public void DrawHud()
-        {
-            
+            Game.SpriteBatch.Draw(Buffer, GetMapSize(), Color.White);
         }
-
         
+        public IEnumerator<Cell> GetEnumerator()
+        {
+            return Data.Values.GetEnumerator();
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return GetEnumerator();
+        }
+
+        /// <summary>
+        /// Получить размер и координаты карты на экране.
+        /// </summary>
+        /// <returns></returns>
+        private Rectangle GetMapSize()
+        {
+            var oldW = Width * 50;
+            var oldH = Height * 50;
+            var oldP = (double)oldW / oldH;
+            var newW = Game.Graphics.PreferredBackBufferWidth;
+            var newH = Game.Graphics.PreferredBackBufferHeight;
+            var newP = (double)newW / newH;
+
+            if (oldW < newW && oldH < newH)
+            {
+                return new Rectangle(newW / 2 - oldW / 2, newH / 2 - oldH / 2, oldW, oldH);
+            }
+            double f;
+            if (newP > oldP)
+            {
+                f = (double)newH / oldH;
+            }
+            else
+            {
+                f = (double)newW / oldW;
+            }
+            oldW = (int)(oldW * f);
+            oldH = (int)(oldH * f);
+            return new Rectangle(newW / 2 - oldW / 2, newH / 2 - oldH / 2, oldW, oldH);
+        }
     }
 }

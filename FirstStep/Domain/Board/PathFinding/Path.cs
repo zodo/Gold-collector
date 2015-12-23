@@ -11,14 +11,14 @@
     public class Path : IEnumerable<Cell>
     {
         /// <summary>
-        /// Список точек пути.
+        /// Список клеток в пути.
         /// </summary>
         private readonly List<Cell> _cells = new List<Cell>();
 
         /// <summary>
         /// Конструктор <see cref="Path" />
         /// </summary>
-        /// <param name="end">Конечная точка пути.</param>
+        /// <param name="end">Конечная клетка пути.</param>
         public Path(CellWrapper end)
         {
             var current = end;
@@ -34,6 +34,9 @@
             _cells.Add(current.Cell);
         }
 
+        /// <summary>
+        /// Создать пустой путь.
+        /// </summary>
         public Path()
         {
         }

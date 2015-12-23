@@ -32,6 +32,11 @@
             _command = command;
         }
 
+        /// <summary>
+        /// Конструктор <see cref="Button"/>
+        /// </summary>
+        /// <param name="caption">Имя.</param>
+        /// <param name="command">Обработчик нажатия.</param>
         public Button(string caption, Action<Button> command)
             : base(caption)
         {
@@ -59,13 +64,7 @@
         /// <param name="foreground">Цвет переднего плана.</param>
         public override void DrawAt(Rectangle coords, Color foreground)
         {
-            //Game.SpriteBatch.Draw(Game.WhiteRectangle, coords, Color.FromNonPremultiplied(0,0,0,0));
             DrawString(Caption, coords, foreground);
         }
-
-        /// <summary>
-        /// Можно ли выбрать контрол.
-        /// </summary>
-        public override bool CanSelect => true;
     }
 }

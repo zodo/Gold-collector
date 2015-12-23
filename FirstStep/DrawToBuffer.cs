@@ -7,7 +7,7 @@
     using Microsoft.Xna.Framework;
     using Microsoft.Xna.Framework.Graphics;
 
-    public class DrawToBuffer : SimpleGameObject, IDisposable
+    public class DrawToBuffer : GameObject, IDisposable
     {
         public DrawToBuffer(RenderTarget2D buffer)
         {

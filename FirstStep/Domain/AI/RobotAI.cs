@@ -1,22 +1,30 @@
 ﻿namespace FirstStep.Domain.AI
 {
-    using Commands;
+    using Board;
 
-    using FirstStep.Board;
+    using Commands;
 
     using Game;
 
     using Units;
 
-    public abstract class RobotAI : SimpleGameObject
+    /// <summary>
+    /// Искусственный интеллект робота.
+    /// </summary>
+    public abstract class RobotAI : GameObject
     {
+        /// <summary>
+        /// Поле.
+        /// </summary>
         protected readonly Board Board;
 
         public RobotAI(Board board)
         {
             Board = board;
         }
-
+        /// <summary>
+        /// Получить инструкцию.
+        /// </summary>
         public abstract Command NextTurn(Robot robot);
     }
 }

@@ -1,18 +1,20 @@
-﻿namespace FirstStep.Board
+﻿namespace FirstStep.Domain.Board
 {
     using System;
     using System.Linq;
 
-    using Domain.AI;
-    using Domain.Board.PathFinding;
-    using Domain.Units;
-
-    using Microsoft.Xna.Framework;
-
+    using AI;
+    using PathFinding;
     using Units;
 
+    /// <summary>
+    /// Строитель игрового поля.
+    /// </summary>
     public class BoardBuilder
     {
+        /// <summary>
+        /// Игровое поле.
+        /// </summary>
         private readonly Board _board;
 
         private readonly Random _random;
@@ -20,10 +22,13 @@
         public BoardBuilder(Board board, int seed = -1)
         {
             _board = board;
-            _board.Player = new Player(_board, new Vector2(_board.Width / 2, _board.Height / 2));
             _random = seed >= 0 ? new Random(seed) : new Random();
         }
 
+        /// <summary>
+        /// Добавить отверстий.
+        /// </summary>
+        /// <param name="amount">Количество.</param>
         public BoardBuilder AddHoles(int amount)
         {
             for (var i = 0; i < amount; i++)
@@ -42,27 +47,37 @@
             return this;
         }
 
+        /// <summary>
+        /// Добавить золото.
+        /// </summary>
+        /// <param name="amount"></param>
+        /// <returns></returns>
         public BoardBuilder AddGold(int amount)
         {
             var possibleCells =
-                _board.Where(x => x.AllowedToMove)
+                _board.Where(x => x.IsHole)
                     .Where(x => !_board.Units.Select(u => u.Coordinates).Contains(x.Coordinates))
                     .Where(x => _board.Player.Coordinates != x.Coordinates)
-                    .Where(x => PathFinder.CanReach(x, _board.Player.CurrentCell))
-                    .ToList();
+                    .Where(x => PathFinder.CanReach(x, _board.Player.CurrentCell));
             var gold =
                 possibleCells.OrderBy(x => _random.Next())
                     .Take(amount)
-                    .Select(x => new Gold(_board, x.Coordinates))
-                    .ToList();
+                    .Select(x => new Gold(_board, x.Coordinates));
             _board.Units.AddRange(gold);
             return this;
         }
 
+
+        /// <summary>
+        /// Добавить роботов.
+        /// </summary>
+        /// <param name="amount">Количество.</param>
+        /// <param name="isSmart">Умны?</param>
+        /// <returns></returns>
         public BoardBuilder AddRobots(int amount, bool isSmart = true)
         {
             var possibleCells =
-                _board.Where(x => x.AllowedToMove)
+                _board.Where(x => x.IsHole)
                     .Where(x => !_board.Units.Select(u => u.Coordinates).Contains(x.Coordinates))
                     .Where(x => PathFinder.CanReach(x, _board.Player.CurrentCell))
                     .Where(x => PathFinder.Distance(x, _board.Player.CurrentCell) > 2)
@@ -78,25 +93,26 @@
             return this;
         }
 
+        /// <summary>
+        /// Неявное привидение строителя к игровому полю.
+        /// </summary>
+        /// <param name="mb"></param>
         public static implicit operator Board(BoardBuilder mb)
         {
             mb._board.Units.ForEach(u => mb._board.Player.AddObserver(u));
             return mb._board;
         }
 
-        private bool EachUnitReachable()
-        {
-            var playerCell = _board.Player.CurrentCell;
-            return _board.Units.All(x => PathFinder.CanReach(x.CurrentCell, playerCell));
-        }
-
+        /// <summary>
+        /// Можно ли разместить отверстие.
+        /// </summary>
         private bool CanPlaceHole(Cell cell)
         {
-            var allowedToMove = cell.AllowedToMove;
+            var allowedToMove = cell.IsHole;
             var unitsOnSameCoords = !_board.Units.Select(u => u.Coordinates).Contains(cell.Coordinates);
             var cellsAroundPlayer =
                 _board.Player.CurrentCell.CellsAround.Where(x => x.Coordinates != cell.Coordinates)
-                    .Any(c => c.AllowedToMove);
+                    .Any(c => c.IsHole);
             var playerOnSameCoords = _board.Player.Coordinates != cell.Coordinates;
             return allowedToMove && unitsOnSameCoords && cellsAroundPlayer && playerOnSameCoords;
         }

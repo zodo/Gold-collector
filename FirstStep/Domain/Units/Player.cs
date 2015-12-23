@@ -1,30 +1,24 @@
-﻿namespace FirstStep.Units
+﻿namespace FirstStep.Domain.Units
 {
-    using System.Linq;
-
-    using Actors;
-
+    using System.Linq;    
     using Board;
-
-    using Commands;
-
-    using Domain.Units;
-
+    using FirstStep.Commands;
     using Game;
-
     using Microsoft.Xna.Framework;
-
     using Observer;
 
     public class Player : ActiveUnit
     {
-        public int WeaponCharges { get; set; }
-
         public Player(Board board, Vector2 coords)
             : base(board, coords)
         {
             WeaponCharges = Settings.Charges;
         }
+
+        /// <summary>
+        /// Оставшийся заряд оружия.
+        /// </summary>
+        private int WeaponCharges { get; set; }
 
         /// <summary>
         /// Обновить состояние.
@@ -39,9 +33,9 @@
                 var touchrobot = Board.Units.OfType<Robot>().Select(x => x.Coordinates).Any(x => x == playerCoords);
                 if (touchrobot)
                 {
-                    Notify(this, EventType.GameOver);
+                    Notify(this, GameEvent.PlayerTouchRobot);
                 }
-                Notify(this, EventType.PlayerWalked);
+                Notify(this, GameEvent.PlayerWalked);
             }
         }
 
@@ -57,19 +51,23 @@
         }
 
         /// <summary>
-        /// При изменении.
+        /// При оповещении.
         /// </summary>
-        /// <param name="obj">Юнит.</param>
-        /// <param name="eventType">Событие.</param>
-        public override void OnNotify(SimpleGameObject obj, EventType eventType)
+        /// <param name="obj">Игровой объект.</param>
+        /// <param name="gameEvent">Событие.</param>
+        public override void OnNotify(GameObject obj, GameEvent gameEvent)
         {
         }
 
+        /// <summary>
+        /// Применить оружие.
+        /// </summary>
+        /// <returns>Успешность приминения.</returns>
         public override bool Act()
         {
             if (WeaponCharges > 0)
             {
-                Notify(this, EventType.WeaponUsed);
+                Notify(this, GameEvent.WeaponUsed);
                 WeaponCharges--;
                 return true;
             }

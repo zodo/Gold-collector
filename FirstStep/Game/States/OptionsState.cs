@@ -1,7 +1,5 @@
 ﻿namespace FirstStep.Game.States.Options
 {
-    using Board;
-
     using Controls;
 
     using Microsoft.Xna.Framework;
@@ -9,7 +7,7 @@
     /// <summary>
     /// Состояние нахождения на экране настроек.
     /// </summary>
-    public class OptionsState : SimpleGameObject, IState
+    public class OptionsState : GameObject, IState
     {
         /// <summary>
         /// Набор элентов управления.
@@ -41,7 +39,7 @@
                 .AddControl(
                     new NumericUpDown("Robots amount", i => _tempSettings.RobotsAmount = i, Settings.RobotsAmount))
                 .AddControl(new NumericUpDown("Holes amount", i => _tempSettings.HolesAmount = i, Settings.HolesAmount))
-                .AddControl(new NumericUpDown("Map seed", i => _tempSettings.Seed = i, Settings.Seed, minValue:-1))
+                .AddControl(new NumericUpDown("Map seed", i => _tempSettings.Seed = i, Settings.Seed, minValue: -1))
                 .AddControl(new CheckBox("Smart robots", b => _tempSettings.SmartRobots = b, Settings.SmartRobots))
                 .AddControl(
                     new Button(

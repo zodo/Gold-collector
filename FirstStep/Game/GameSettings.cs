@@ -30,12 +30,25 @@
         /// </summary>
         public int HolesAmount { get; set; } = 15;
 
+        /// <summary>
+        /// Роботы с поиском пути.
+        /// </summary>
         public bool SmartRobots { get; set; } = true;
 
+        /// <summary>
+        /// Номер карты.
+        /// </summary>
         public int Seed { get; set; } = -1;
 
+        /// <summary>
+        /// Кол-во зарядов оружия.
+        /// </summary>
         public int Charges { get; set; } = 3;
 
+        /// <summary>
+        /// Клонировать настройки.
+        /// </summary>
+        /// <returns></returns>
         public GameSettings Clone()
         {
             return new GameSettings
@@ -45,7 +58,9 @@
                 RobotsAmount = RobotsAmount,
                 GoldAmount = GoldAmount,
                 HolesAmount = HolesAmount,
-                SmartRobots = SmartRobots
+                SmartRobots = SmartRobots,
+                Seed = Seed,
+                Charges = Charges
             };
         }
     }

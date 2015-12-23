@@ -1,11 +1,11 @@
-﻿namespace FirstStep.Actors
+﻿namespace FirstStep.Domain.Units
 {
     using Board;
-
     using Microsoft.Xna.Framework;
 
-    using Units;
-
+    /// <summary>
+    /// Юнит, способный выполнять действия.
+    /// </summary>
     public abstract class ActiveUnit : Unit
     {
         private readonly Vector2 _down = new Vector2(0, 1);
@@ -21,7 +21,9 @@
         {
         }
 
-
+        /// <summary>
+        /// Пойти влево.
+        /// </summary>
         public bool GoLeft()
         {
             if (Board.CanGoTo(Coordinates + _left))
@@ -32,6 +34,9 @@
             return false;
         }
 
+        /// <summary>
+        /// Пойти вправо.
+        /// </summary>
         public bool GoRight()
         {
             if (Board.CanGoTo(Coordinates + _right))
@@ -42,6 +47,10 @@
             return false;
         }
 
+        /// <summary>
+        /// Пойти вверх.
+        /// </summary>
+        /// <returns></returns>
         public bool GoUp()
         {
             if (Board.CanGoTo(Coordinates + _up))
@@ -52,6 +61,10 @@
             return false;
         }
 
+        /// <summary>
+        /// Пойти вниз.
+        /// </summary>
+        /// <returns></returns>
         public bool GoDown()
         {
             if (Board.CanGoTo(Coordinates + _down))
@@ -62,6 +75,10 @@
             return false;
         }
 
+        /// <summary>
+        /// Выполнить какое-либо действие.
+        /// </summary>
+        /// <returns>Успешность выполнения.</returns>
         public abstract bool Act();
     }
 }
