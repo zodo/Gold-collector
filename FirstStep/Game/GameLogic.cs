@@ -28,50 +28,30 @@
         /// <param name="eventType">Событие.</param>
         public void OnNotify(SimpleGameObject obj, EventType eventType)
         {
-            
-                if (eventType == EventType.GoldTaken)
+            Notify(obj, eventType);
+
+            if (eventType == EventType.GoldTaken)
+            {
+                if (!_board.Units.OfType<Gold>().Any())
                 {
-                    _board.Units.Remove(_board.Units.SingleOrDefault(x => x.Coordinates == _board.Player.Coordinates));
-                    if (!_board.Units.OfType<Gold>().Any())
-                    {
-                        Notify(this, EventType.Victory);
-                        return;
-                    }
-                    
-                    Notify(this, EventType.GoldTaken);
+                    Notify(this, EventType.Victory);
                 }
-                if (eventType == EventType.PlayerWalked)
-                {
-                    UpdateGameLogic();
-                }
-                if (eventType == EventType.GameOver)
+            }
+            if (eventType == EventType.PlayerWalked)
+            {
+                if (RobotTouchPlayer())
                 {
                     Notify(this, EventType.GameOver);
                 }
-            
-        }
-
-        private void UpdateGameLogic()
-        {
-            if (RobotTouchPlayer())
-            {
-                Notify(this, EventType.GameOver);
-                return;
             }
-            
-            Notify(this, EventType.PlayerWalked);
+
         }
 
+       
         private bool RobotTouchPlayer()
         {
             var playerCoords = _board.Player.Coordinates;
             return _board.Units.OfType<Robot>().Select(x => x.Coordinates).Any(x => x == playerCoords);
-        }
-
-        private bool PlayerTakeGold()
-        {
-            var playerCoords = _board.Player.Coordinates;
-            return _board.Units.OfType<Gold>().Select(x => x.Coordinates).Any(x => x == playerCoords);
         }
     }
 }

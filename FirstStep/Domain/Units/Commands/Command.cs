@@ -7,9 +7,9 @@
     /// </summary>
     public abstract class Command
     {
-        protected readonly MoveableUnit Unit;
+        protected readonly ActiveUnit Unit;
 
-        protected Command(MoveableUnit unit)
+        protected Command(ActiveUnit unit)
         {
             Unit = unit;
         }

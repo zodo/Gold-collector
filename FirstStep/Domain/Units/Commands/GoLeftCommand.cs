@@ -7,7 +7,7 @@
     /// </summary>
     public class GoLeftCommand : Command
     {
-        public GoLeftCommand(MoveableUnit unit)
+        public GoLeftCommand(ActiveUnit unit)
             : base(unit)
         {
         }

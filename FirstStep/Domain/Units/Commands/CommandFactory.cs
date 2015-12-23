@@ -7,11 +7,13 @@
 
     using Board;
 
+    using Domain.Units.Commands;
+
     using Microsoft.Xna.Framework.Input;
 
     public static class CommandFactory
     {
-        public static Command Create(MoveableUnit unit, Keys[] pressed)
+        public static Command Create(ActiveUnit unit, Keys[] pressed)
         {
             if (pressed.Contains(Keys.Left))
             {
@@ -29,10 +31,14 @@
             {
                 return new GoDownCommand(unit);
             }
+            if (pressed.Contains(Keys.Space))
+            {
+                return new ActCommand(unit);
+            }
             return new EmptyCommand();
         }
 
-        public static Command Create(MoveableUnit unit, Cell next)
+        public static Command Create(ActiveUnit unit, Cell next)
         {
             if (next == null)
             {

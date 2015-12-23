@@ -4,7 +4,7 @@
 
     public class GoDownCommand : Command
     {
-        public GoDownCommand(MoveableUnit unit)
+        public GoDownCommand(ActiveUnit unit)
             : base(unit)
         {
         }

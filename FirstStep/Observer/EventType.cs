@@ -14,6 +14,8 @@
 
         GameOver,
 
-        Victory
+        Victory,
+
+        WeaponUsed
     }
 }

@@ -4,7 +4,7 @@
 
     public class GoUpCommand : Command
     {
-        public GoUpCommand(MoveableUnit unit)
+        public GoUpCommand(ActiveUnit unit)
             : base(unit)
         {
         }

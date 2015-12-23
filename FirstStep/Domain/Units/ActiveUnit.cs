@@ -6,7 +6,7 @@
 
     using Units;
 
-    public abstract class MoveableUnit : Unit
+    public abstract class ActiveUnit : Unit
     {
         private readonly Vector2 _down = new Vector2(0, 1);
 
@@ -16,10 +16,11 @@
 
         private readonly Vector2 _up = new Vector2(0, -1);
 
-        public MoveableUnit(Board board, Vector2 coords)
+        public ActiveUnit(Board board, Vector2 coords)
             : base(board, coords)
         {
         }
+
 
         public bool GoLeft()
         {
@@ -60,5 +61,7 @@
             }
             return false;
         }
+
+        public abstract bool Act();
     }
 }

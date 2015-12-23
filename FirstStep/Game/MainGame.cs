@@ -14,7 +14,7 @@
     /// </summary>
     public partial class MainGame : Microsoft.Xna.Framework.Game
     {
-        private static BoardSettings _settings = new BoardSettings();
+        private static GameSettings _settings = new GameSettings();
 
         private static bool _instantied;
 

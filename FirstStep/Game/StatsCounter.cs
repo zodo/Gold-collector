@@ -6,9 +6,16 @@
 
     public class StatsCounter : SimpleGameObject, IObserver
     {
-        public int PlayerMoves { get; set; }
+        public int PlayerMoves { get; private set; }
 
-        public int GoldTaken { get; set; }
+        public int GoldTaken { get; private set; }
+
+        public int ChargesLeft { get; private set; }
+
+        public StatsCounter()
+        {
+            ChargesLeft = Settings.Charges;
+        }
 
         /// <summary>
         /// При изменении.
@@ -25,17 +32,21 @@
             {
                 GoldTaken++;
             }
+            if (eventType == EventType.WeaponUsed)
+            {
+                ChargesLeft--;
+            }
         }
 
         public void Draw()
         {
-            var width = 200;
+            var width = 300;
             var height = 50;
             var x = Game.Graphics.PreferredBackBufferWidth - width;
             var y = 0;
             var rect = new Rectangle(x, y, width, height);
             Game.SpriteBatch.Draw(Game.WhiteRectangle, rect, Color.FromNonPremultiplied(255,255,255,200));
-            DrawString(ToString(), rect, Color.Brown);
+            DrawString($"Moves: {PlayerMoves} Gold: {GoldTaken} Charges: {ChargesLeft}", rect, Color.Brown);
         }
 
         /// <summary>

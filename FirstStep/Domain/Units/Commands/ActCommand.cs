@@ -1,10 +1,12 @@
-﻿namespace FirstStep.Commands
+﻿namespace FirstStep.Domain.Units.Commands
 {
     using Actors;
 
-    public class GoRightCommand : Command
+    using FirstStep.Commands;
+
+    public class ActCommand : Command
     {
-        public GoRightCommand(ActiveUnit unit)
+        public ActCommand(ActiveUnit unit)
             : base(unit)
         {
         }
@@ -14,7 +16,7 @@
         /// </summary>
         public override bool Execute()
         {
-            return Unit.GoRight();
+            return Unit.Act();
         }
     }
 }

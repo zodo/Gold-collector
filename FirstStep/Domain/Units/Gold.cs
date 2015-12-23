@@ -47,6 +47,8 @@
                 {
                     if (Board.Player.Coordinates == Coordinates)
                     {
+                        Board.Units.Remove(this);
+                        Board.Player.RemoveObserver(this);
                         Notify(this, EventType.GoldTaken);
                     }
                 }

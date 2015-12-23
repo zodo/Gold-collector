@@ -20,7 +20,7 @@
             /// <summary>
             /// Настройки.
             /// </summary>
-            protected BoardSettings Settings
+            protected GameSettings Settings
             {
                 get
                 {

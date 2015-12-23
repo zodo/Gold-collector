@@ -1,9 +1,9 @@
-﻿namespace FirstStep.Board
+﻿namespace FirstStep.Game
 {
     /// <summary>
     /// Настройки игры.
     /// </summary>
-    public class BoardSettings
+    public class GameSettings
     {
         /// <summary>
         /// Ширина поля.
@@ -34,9 +34,11 @@
 
         public int Seed { get; set; } = -1;
 
-        public BoardSettings Clone()
+        public int Charges { get; set; } = 3;
+
+        public GameSettings Clone()
         {
-            return new BoardSettings
+            return new GameSettings
             {
                 BoardHeight = BoardHeight,
                 BoardWidth = BoardWidth,

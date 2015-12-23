@@ -16,11 +16,14 @@
 
     using Observer;
 
-    public class Player : MoveableUnit
+    public class Player : ActiveUnit
     {
+        public int WeaponCharges { get; set; }
+
         public Player(Board board, Vector2 coords)
             : base(board, coords)
         {
+            WeaponCharges = Settings.Charges;
         }
 
         /// <summary>
@@ -60,6 +63,17 @@
         /// <param name="eventType">Событие.</param>
         public override void OnNotify(SimpleGameObject obj, EventType eventType)
         {
+        }
+
+        public override bool Act()
+        {
+            if (WeaponCharges > 0)
+            {
+                Notify(this, EventType.WeaponUsed);
+                WeaponCharges--;
+                return true;
+            }
+            return false;
         }
     }
 }

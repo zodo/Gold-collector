@@ -19,7 +19,7 @@
         /// <summary>
         /// Несохраненные настройки доски.
         /// </summary>
-        private readonly BoardSettings _tempSettings;
+        private readonly GameSettings _tempSettings;
 
         /// <summary>
         /// Новое состояние.
