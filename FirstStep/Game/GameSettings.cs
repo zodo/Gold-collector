@@ -8,17 +8,17 @@
         /// <summary>
         /// Ширина поля.
         /// </summary>
-        public int BoardWidth { get; set; } = 10;
+        public int BoardWidth { get; set; } = 9;
 
         /// <summary>
         /// Высота поля.
         /// </summary>
-        public int BoardHeight { get; set; } = 10;
+        public int BoardHeight { get; set; } = 9;
 
         /// <summary>
         /// Количество генерируемых роботов.
         /// </summary>
-        public int RobotsAmount { get; set; } = 5;
+        public int RobotsAmount { get; set; } = 2;
 
         /// <summary>
         /// Количество генерируемого золота.

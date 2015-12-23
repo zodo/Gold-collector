@@ -49,23 +49,21 @@
 
         protected override void Initialize()
         {
-            // TODO: Add your initialization logic here
-            Graphics.PreferredBackBufferWidth = 1024;
-            Graphics.PreferredBackBufferHeight = 700;
-
-            _state = new MainMenuState();
             GraphicsDevice.PresentationParameters.RenderTargetUsage = RenderTargetUsage.PreserveContents;
+            Graphics.PreferredBackBufferWidth = GraphicsDevice.DisplayMode.Width;
+            Graphics.PreferredBackBufferHeight = GraphicsDevice.DisplayMode.Height;
+            Graphics.IsFullScreen = true;
+            Graphics.ApplyChanges();
+            _state = new MainMenuState();
 
             base.Initialize();
         }
 
         protected override void LoadContent()
         {
-            // Create a new SpriteBatch, which can be used to draw textures.
             SpriteBatch = new SpriteBatch(GraphicsDevice);
             WhiteRectangle = new Texture2D(GraphicsDevice, 1, 1);
             WhiteRectangle.SetData(new[] { Color.White });
-            // TODO: use this.Content to load your game content here
             Font = Content.Load<SpriteFont>("MyFont");
         }
 

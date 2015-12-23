@@ -4,29 +4,28 @@
 
     using Microsoft.Xna.Framework;
 
-    using Options;
-
     /// <summary>
-    /// Состояние нахождения в главном меню.
+    /// Состояние нахождения в справке.
     /// </summary>
-    public class MainMenuState : State
+    public class HelpState : State
     {
         /// <summary>
-        /// Набор элентов управления.
+        /// Элементы управления.
         /// </summary>
         private readonly ContolCollection _contols;
-        
-        public MainMenuState()
+
+        public HelpState()
         {
             _contols =
                 ContolCollection.Create()
                     .AtCoords(ControlPosition.Center)
-                    .SetSize(10)
-                    .AddControl(new Button("Play", () => NewState = new GameplayState()))
-                    .AddControl(new Button("Options", () => NewState = new OptionsState()))
-                    .AddControl(new Button("Help", () => NewState = new HelpState()))
-                    .AddControl(new Button("Quit", () => Game.Exit()))
-                    .WithBackground(Color.FromNonPremultiplied(0, 0, 0, 0));
+                    .SetSize(5)
+                    .WithBackground(Color.Transparent)
+                    .BeforeUpdate(() => NewState = null)
+                    .AddHeader("Movements - arrows", 4)
+                    .AddHeader(" Freezer - space  ", 4)
+                    .AddHeader("Collect gold, avoid robots", 5)
+                    .AddControl(new Button("Back", () => NewState = new MainMenuState()));
         }
 
         /// <summary>

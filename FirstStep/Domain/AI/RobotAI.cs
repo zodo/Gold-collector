@@ -4,8 +4,6 @@
 
     using Commands;
 
-    using Game;
-
     using Units;
 
     /// <summary>
