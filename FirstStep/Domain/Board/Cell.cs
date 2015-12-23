@@ -69,9 +69,10 @@
         public override void Draw()
         {
             var color = IsHole ? Color.DarkGray : Color.Black;
+            var size = Settings.CellSizeInPixels;
             Game.SpriteBatch.Draw(
                 Game.WhiteRectangle,
-                new Rectangle((int)(Coordinates.X * 50) + 5, (int)(Coordinates.Y * 50) + 5, 40, 40),
+                new Rectangle((int)(Coordinates.X * size) + size / 10, (int)(Coordinates.Y * size) + size / 10, size - size / 5, size - size / 5),
                 color);
         }
     }

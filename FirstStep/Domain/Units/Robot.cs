@@ -47,9 +47,10 @@
         public override void Draw()
         {
             var color = Freezed ? Color.Blue : Color.Red;
+            var size = Settings.CellSizeInPixels;
             Game.SpriteBatch.Draw(
                 Game.WhiteRectangle,
-                new Rectangle((int)(Coordinates.X * 50) + 10, (int)(Coordinates.Y * 50) + 10, 30, 30),
+                new Rectangle((int)(Coordinates.X * size) + size / 6, (int)(Coordinates.Y * size) + size / 6, size - size / 3, size - size / 3),
                 color);
         }
 

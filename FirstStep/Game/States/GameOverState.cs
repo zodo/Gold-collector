@@ -16,7 +16,7 @@
         
         public GameOverState(bool isVictory, Hud stats)
         {
-            var str = isVictory ? "WIN" : "FAIL";
+            var str = isVictory ? "Victory!" : "FAIL";
             _contols =
                 ContolCollection.Create()
                     .AtCoords(ControlPosition.Center)

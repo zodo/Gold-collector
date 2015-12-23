@@ -66,6 +66,7 @@
         /// </summary>
         protected override void DoUpdate()
         {
+            NewState = null;
             if (Keyboard.GetState().IsKeyDown(Keys.Escape))
             {
                 NewState = new PauseState(this);

@@ -46,6 +46,11 @@
         public int Charges { get; set; } = 3;
 
         /// <summary>
+        /// Размер клетки в пикселях.
+        /// </summary>
+        public int CellSizeInPixels { get; set; } = 72;
+
+        /// <summary>
         /// Клонировать настройки.
         /// </summary>
         /// <returns></returns>
@@ -60,7 +65,8 @@
                 HolesAmount = HolesAmount,
                 SmartRobots = SmartRobots,
                 Seed = Seed,
-                Charges = Charges
+                Charges = Charges,
+                CellSizeInPixels = CellSizeInPixels
             };
         }
     }

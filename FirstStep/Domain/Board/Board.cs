@@ -93,8 +93,8 @@
 
             Buffer = new RenderTarget2D(
                 Game.GraphicsDevice,
-                width * 50,
-                height * 50,
+                width * Settings.CellSizeInPixels,
+                height * Settings.CellSizeInPixels,
                 false,
                 Game.GraphicsDevice.PresentationParameters.BackBufferFormat,
                 DepthFormat.Depth24);
@@ -172,8 +172,8 @@
         /// <returns></returns>
         private Rectangle GetMapSize()
         {
-            var oldW = Width * 50;
-            var oldH = Height * 50;
+            var oldW = Width * Settings.CellSizeInPixels;
+            var oldH = Height * Settings.CellSizeInPixels;
             var oldP = (double)oldW / oldH;
             var newW = Game.Graphics.PreferredBackBufferWidth;
             var newH = Game.Graphics.PreferredBackBufferHeight;

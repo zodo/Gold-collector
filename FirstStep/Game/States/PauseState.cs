@@ -23,6 +23,7 @@
                     .AtCoords(ControlPosition.Center)
                     .SetSize(5)
                     .WithBackground(Color.Transparent)
+                    .BeforeUpdate(() => NewState = null)
                     .AddHeader("Pause", 4)
                     .AddControl(new Button("Continue", () => NewState = gameState))
                     .AddControl(new Button("Restart", () => NewState = new GameplayState()))
