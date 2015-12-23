@@ -9,7 +9,7 @@
     /// <summary>
     /// Состояние нахождения в игровом процессе.
     /// </summary>
-    public class GameplayState : GameObject, IState, IObserver
+    public class GameplayState : State, IObserver
     {
         /// <summary>
         /// Игровое поле.
@@ -17,20 +17,10 @@
         private readonly Board _board;
 
         /// <summary>
-        /// Игровая логика.
-        /// </summary>
-        private readonly GameLogic _gameLogic;
-
-        /// <summary>
         /// Отображатель доп. инфы.
         /// </summary>
         private readonly Hud _hud;
-
-        /// <summary>
-        /// Новое состояние.
-        /// </summary>
-        private IState _newState;
-
+        
         public GameplayState()
         {
             _board =
@@ -38,11 +28,11 @@
                     .AddHoles(Settings.HolesAmount)
                     .AddGold(Settings.GoldAmount)
                     .AddRobots(Settings.RobotsAmount, Settings.SmartRobots);
-            _gameLogic = new GameLogic(_board);
-            _gameLogic.AddObserver(this);
+            var gameLogic = new GameLogic(_board);
+            gameLogic.AddObserver(this);
 
             _hud = new Hud();
-            _gameLogic.AddObserver(_hud);
+            gameLogic.AddObserver(_hud);
         }
 
         /// <summary>
@@ -54,35 +44,33 @@
         {
             if (gameEvent == GameEvent.GameOver)
             {
-                _newState = new GameOverState(false, _hud);
+                NewState = new GameOverState(false, _hud);
             }
             if (gameEvent == GameEvent.Victory)
             {
-                _newState = new GameOverState(true, _hud);
+                NewState = new GameOverState(true, _hud);
             }
-        }
-
-        /// <summary>
-        /// Обновиться.
-        /// </summary>
-        /// <returns>Новое состояние, либо null, если состояние не изменилось.</returns>
-        public IState Update()
-        {
-            if (Keyboard.GetState().IsKeyDown(Keys.Escape))
-            {
-                return new PauseState(this);
-            }
-            _board.Update();
-            return _newState;
         }
 
         /// <summary>
         /// Отрисоваться.
         /// </summary>
-        public void Draw()
+        public override void Draw()
         {
             _board.Draw();
             _hud.Draw();
+        }
+
+        /// <summary>
+        /// Выполнить обновление.
+        /// </summary>
+        protected override void DoUpdate()
+        {
+            if (Keyboard.GetState().IsKeyDown(Keys.Escape))
+            {
+                NewState = new PauseState(this);
+            }
+            _board.Update();
         }
     }
 }

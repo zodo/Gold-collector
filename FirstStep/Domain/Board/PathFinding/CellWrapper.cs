@@ -1,6 +1,5 @@
 ﻿namespace FirstStep.Domain.Board.PathFinding
 {
-    using FirstStep.Board;
 
     /// <summary>
     /// Обертка для <see cref="Cell"/> для реализации A*

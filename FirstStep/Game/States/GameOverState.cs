@@ -7,18 +7,13 @@
     /// <summary>
     /// Состояние нахождения на экране конца игры.
     /// </summary>
-    public class GameOverState : GameObject, IState
+    public class GameOverState : State
     {
         /// <summary>
         /// Набор элементов управления.
         /// </summary>
         private readonly ContolCollection _contols;
-
-        /// <summary>
-        /// Новое состояние.
-        /// </summary>
-        private IState _newState;
-
+        
         public GameOverState(bool isVictory, Hud stats)
         {
             var str = isVictory ? "WIN" : "FAIL";
@@ -29,27 +24,24 @@
                     .WithBackground(Color.Transparent)
                     .AddHeader(str, 6)
                     .AddHeader(stats.ToString(), 3)
-                    .AddControl(new Button("Restart", () => _newState = new GameplayState()))
-                    .AddControl(new Button("Main menu", () => _newState = new MainMenuState()));
+                    .AddControl(new Button("Restart", () => NewState = new GameplayState()))
+                    .AddControl(new Button("Main menu", () => NewState = new MainMenuState()));
         }
-
-        /// <summary>
-        /// Обновиться.
-        /// </summary>
-        /// <returns>Новое состояние, либо null, если состояние не изменилось.</returns>
-        public IState Update()
-        {
-            _contols.Update();
-            return _newState;
-        }
-
+        
         /// <summary>
         /// Отрисоваться.
         /// </summary>
-        public void Draw()
+        public override void Draw()
         {
             _contols.Draw();
         }
-        
+
+        /// <summary>
+        /// Выполнить обновление.
+        /// </summary>
+        protected override void DoUpdate()
+        {
+            _contols.Update();
+        }
     }
 }

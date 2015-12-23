@@ -73,11 +73,11 @@
     <Compile Include="Game\States\MainMenuState.cs" />
     <Compile Include="Game\States\PauseState.cs" />
     <Compile Include="Game\Hud.cs" />
+    <Compile Include="Game\States\State.cs" />
     <Compile Include="Observer\GameEvent.cs" />
     <Compile Include="Domain\GameObject.cs" />
     <Compile Include="Game\MainGame.cs" />
     <Compile Include="Domain\InteractiveGameObject.cs" />
-    <Compile Include="Game\States\IState.cs" />
     <Compile Include="Game\States\OptionsState.cs" />
     <Compile Include="Game\States\GameplayState.cs" />
     <Compile Include="Observer\IObserver.cs" />

@@ -9,47 +9,39 @@
     /// <summary>
     /// Состояние нахождения в главном меню.
     /// </summary>
-    public class MainMenuState : GameObject, IState
+    public class MainMenuState : State
     {
         /// <summary>
         /// Набор элентов управления.
         /// </summary>
         private readonly ContolCollection _contols;
-
-        /// <summary>
-        /// Новое состояние.
-        /// </summary>
-        private IState _newState;
-
+        
         public MainMenuState()
         {
             _contols =
                 ContolCollection.Create()
                     .AtCoords(ControlPosition.Center)
                     .SetSize(10)
-                    .BeforeUpdate(() => _newState = null)
-                    .AddControl(new Button("Play", () => _newState = new GameplayState()))
-                    .AddControl(new Button("Options", () => _newState = new OptionsState()))
+                    .AddControl(new Button("Play", () => NewState = new GameplayState()))
+                    .AddControl(new Button("Options", () => NewState = new OptionsState()))
                     .AddControl(new Button("Quit", () => Game.Exit()))
                     .WithBackground(Color.FromNonPremultiplied(0, 0, 0, 0));
         }
 
         /// <summary>
-        /// Обновиться.
+        /// Отрисоваться.
         /// </summary>
-        /// <returns>Новое состояние, либо null, если состояние не изменилось.</returns>
-        public IState Update()
+        public override void Draw()
         {
-            _contols.Update();
-            return _newState;
+            _contols.Draw();
         }
 
         /// <summary>
-        /// Отрисоваться.
+        /// Выполнить обновление.
         /// </summary>
-        public void Draw()
+        protected override void DoUpdate()
         {
-            _contols.Draw();
+            _contols.Update();
         }
     }
 }

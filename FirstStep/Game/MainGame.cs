@@ -21,7 +21,7 @@
         /// <summary>
         /// Состояние.
         /// </summary>
-        private IState _state;
+        private State _state;
         
         public GraphicsDeviceManager Graphics { get; set; }
 

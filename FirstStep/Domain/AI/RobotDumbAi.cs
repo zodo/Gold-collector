@@ -3,10 +3,9 @@
     using System;
     using System.Linq;
 
+    using Board;
+
     using Commands;
-
-    using FirstStep.Board;
-
     using Units;
 
     /// <summary>

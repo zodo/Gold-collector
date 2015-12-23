@@ -9,18 +9,13 @@
     /// <summary>
     /// Состояние нахождения на экране паузы.
     /// </summary>
-    public class PauseState : GameObject, IState
+    public class PauseState : State
     {
         /// <summary>
         /// Элементы управления.
         /// </summary>
         private readonly ContolCollection _contols;
-
-        /// <summary>
-        /// Новое состояние.
-        /// </summary>
-        private IState _newState;
-
+        
         public PauseState(GameplayState gameState)
         {
             _contols =
@@ -29,27 +24,26 @@
                     .SetSize(5)
                     .WithBackground(Color.Transparent)
                     .AddHeader("Pause", 4)
-                    .AddControl(new Button("Continue", () => _newState = gameState))
-                    .AddControl(new Button("Restart", () => _newState = new GameplayState()))
-                    .AddControl(new Button("Main menu", () => _newState = new MainMenuState()));
+                    .AddControl(new Button("Continue", () => NewState = gameState))
+                    .AddControl(new Button("Restart", () => NewState = new GameplayState()))
+                    .AddControl(new Button("Main menu", () => NewState = new MainMenuState()));
         }
 
-        /// <summary>
-        /// Обновиться.
-        /// </summary>
-        /// <returns>Новое состояние, либо null, если состояние не изменилось.</returns>
-        public IState Update()
-        {
-            _contols.Update();
-            return _newState;
-        }
-
+        
         /// <summary>
         /// Отрисоваться.
         /// </summary>
-        public void Draw()
+        public override void Draw()
         {
             _contols.Draw();
+        }
+
+        /// <summary>
+        /// Выполнить обновление.
+        /// </summary>
+        protected override void DoUpdate()
+        {
+            _contols.Update();
         }
     }
 }
