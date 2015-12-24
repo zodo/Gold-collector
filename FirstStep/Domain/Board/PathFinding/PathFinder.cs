@@ -43,7 +43,7 @@
                 opened.Remove(optimal);
                 closed.Add(optimal);
                 var neighbours =
-                    optimal.Cell.CellsAround.Where(neighbour => neighbour.IsHole)
+                    optimal.Cell.CellsAround.Where(neighbour => neighbour.IsGround)
                         .Where(neighbour => !closed.Select(x => x.Cell).Contains(neighbour))
                         .Where(
                             x => walkOnUnits || !start.Board.Units.Select(u => u.Coordinates).Contains(x.Coordinates))

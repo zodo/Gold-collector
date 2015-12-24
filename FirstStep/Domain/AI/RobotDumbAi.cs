@@ -27,7 +27,7 @@
         public override Command NextTurn(Robot robot)
         {
             var cells =
-                robot.CurrentCell.CellsAround.Where(x => x.IsHole)
+                robot.CurrentCell.CellsAround.Where(x => x.IsGround)
                     .Where(x => !Board.Units.Select(u => u.Coordinates).Contains(x.Coordinates))
                     .ToList();
             var next = cells.OrderBy(x => _random.Next()).FirstOrDefault();

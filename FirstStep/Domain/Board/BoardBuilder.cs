@@ -55,7 +55,7 @@
         public BoardBuilder AddGold(int amount)
         {
             var possibleCells =
-                _board.Where(x => x.IsHole)
+                _board.Where(x => x.IsGround)
                     .Where(x => !_board.Units.Select(u => u.Coordinates).Contains(x.Coordinates))
                     .Where(x => _board.Player.Coordinates != x.Coordinates)
                     .Where(x => PathFinder.CanReach(x, _board.Player.CurrentCell));
@@ -77,7 +77,7 @@
         public BoardBuilder AddRobots(int amount, bool isSmart = true)
         {
             var possibleCells =
-                _board.Where(x => x.IsHole)
+                _board.Where(x => x.IsGround)
                     .Where(x => !_board.Units.Select(u => u.Coordinates).Contains(x.Coordinates))
                     .Where(x => PathFinder.CanReach(x, _board.Player.CurrentCell))
                     .Where(x => PathFinder.Distance(x, _board.Player.CurrentCell) > 2)
@@ -108,11 +108,11 @@
         /// </summary>
         private bool CanPlaceHole(Cell cell)
         {
-            var allowedToMove = cell.IsHole;
+            var allowedToMove = cell.IsGround;
             var unitsOnSameCoords = !_board.Units.Select(u => u.Coordinates).Contains(cell.Coordinates);
             var cellsAroundPlayer =
                 _board.Player.CurrentCell.CellsAround.Where(x => x.Coordinates != cell.Coordinates)
-                    .Any(c => c.IsHole);
+                    .Any(c => c.IsGround);
             var playerOnSameCoords = _board.Player.Coordinates != cell.Coordinates;
             return allowedToMove && unitsOnSameCoords && cellsAroundPlayer && playerOnSameCoords;
         }

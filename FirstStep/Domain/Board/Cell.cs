@@ -21,11 +21,11 @@
             new Vector2(-1, 0)
         };
 
-        public Cell(Board board, Vector2 coordinates, bool isHole)
+        public Cell(Board board, Vector2 coordinates, bool isGround)
         {
             Board = board;
             Coordinates = coordinates;
-            IsHole = isHole;
+            IsGround = isGround;
         }
 
         /// <summary>
@@ -39,9 +39,9 @@
         public Vector2 Coordinates { get; set; }
 
         /// <summary>
-        /// Является отверстием.
+        /// Является проходимой.
         /// </summary>
-        public bool IsHole { get; }
+        public bool IsGround { get; }
 
         /// <summary>
         /// Соседи.
@@ -68,7 +68,7 @@
         /// </summary>
         public override void Draw()
         {
-            var color = IsHole ? Color.DarkGray : Color.Black;
+            var color = IsGround ? Color.DarkGray : Color.Black;
             var size = Settings.CellSizeInPixels;
             Game.SpriteBatch.Draw(
                 Game.WhiteRectangle,

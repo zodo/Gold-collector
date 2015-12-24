@@ -69,7 +69,7 @@
         /// <summary>
         /// Можно ли переместится по координатам.
         /// </summary>
-        public bool CanGoTo(Vector2 coords) => IsOnMap(coords) && this[coords].IsHole;
+        public bool CanGoTo(Vector2 coords) => IsOnMap(coords) && this[coords].IsGround;
 
         /// <summary>
         /// Высота.
