@@ -41,7 +41,7 @@
         /// <summary>
         /// Является проходимой.
         /// </summary>
-        public bool IsGround { get; }
+        public bool IsGround { get; set; }
 
         /// <summary>
         /// Соседи.

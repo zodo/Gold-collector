@@ -99,7 +99,9 @@
         /// <param name="mb"></param>
         public static implicit operator Board(BoardBuilder mb)
         {
-            mb._board.Units.ForEach(u => mb._board.Player.AddObserver(u));
+            mb._board.Units.OfType<Gold>().ToList().ForEach(u => mb._board.Player.AddObserver(u));
+            mb._board.Units.OfType<Robot>().ToList().ForEach(u => mb._board.Player.AddObserver(u));
+
             return mb._board;
         }
 
@@ -114,7 +116,25 @@
                 _board.Player.CurrentCell.CellsAround.Where(x => x.Coordinates != cell.Coordinates)
                     .Any(c => c.IsGround);
             var playerOnSameCoords = _board.Player.Coordinates != cell.Coordinates;
-            return allowedToMove && unitsOnSameCoords && cellsAroundPlayer && playerOnSameCoords;
+            var eachUnitReacheable = true;
+            if (allowedToMove)
+            {
+                cell.IsGround = false;
+                eachUnitReacheable = EachUnitReachable();
+                cell.IsGround = true;
+            }
+
+            return allowedToMove && unitsOnSameCoords && cellsAroundPlayer && playerOnSameCoords && eachUnitReacheable;
+        }
+
+        /// <summary>
+        /// Игрок может дойти до каждого юнита.
+        /// </summary>
+        /// <returns></returns>
+        private bool EachUnitReachable()
+        {
+            var playerCell = _board.Player.CurrentCell;
+            return _board.Units.All(x => PathFinder.CanReach(x.CurrentCell, playerCell));
         }
     }
 }

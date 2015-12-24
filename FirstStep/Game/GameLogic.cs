@@ -40,26 +40,11 @@
                     Notify(this, GameEvent.Victory);
                 }
             }
-            if (gameEvent == GameEvent.PlayerWalked)
-            {
-                if (RobotTouchPlayer())
-                {
-                    Notify(this, GameEvent.GameOver);
-                }
-            }
+
             if (gameEvent == GameEvent.PlayerTouchRobot)
             {
                 Notify(this, GameEvent.GameOver);
             }
-        }
-
-        /// <summary>
-        /// Робот настиг игрока.
-        /// </summary>
-        private bool RobotTouchPlayer()
-        {
-            var playerCoords = _board.Player.Coordinates;
-            return _board.Units.OfType<Robot>().Select(x => x.Coordinates).Any(x => x == playerCoords);
         }
     }
 }

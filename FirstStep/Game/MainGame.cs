@@ -52,7 +52,7 @@
             GraphicsDevice.PresentationParameters.RenderTargetUsage = RenderTargetUsage.PreserveContents;
             Graphics.PreferredBackBufferWidth = GraphicsDevice.DisplayMode.Width;
             Graphics.PreferredBackBufferHeight = GraphicsDevice.DisplayMode.Height;
-            Graphics.IsFullScreen = true;
+            //Graphics.IsFullScreen = true;
             Graphics.ApplyChanges();
             _state = new MainMenuState();
 

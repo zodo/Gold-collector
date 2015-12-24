@@ -61,29 +61,48 @@
         /// <param name="gameEvent">Событие.</param>
         public override void OnNotify(GameObject obj, GameEvent gameEvent)
         {
-            if (obj is Player)
+
+            if (gameEvent == GameEvent.PlayerWalked)
             {
-                if (gameEvent == GameEvent.PlayerWalked)
+                PlayerWalked();
+            }
+            if (gameEvent == GameEvent.WeaponUsed)
+            {
+                WeaponUsed();
+            }
+        }
+
+        /// <summary>
+        /// Игрок использовал оружие.
+        /// </summary>
+        private void WeaponUsed()
+        {
+            if (Vector2.Distance(Board.Player.Coordinates, Coordinates) < 1.5)
+            {
+                _freezeForSteps = 5;
+            }
+        }
+
+        /// <summary>
+        /// Игрок шагнул.
+        /// </summary>
+        private void PlayerWalked()
+        {
+            if (Freezed)
+            {
+                _freezeForSteps--;
+            }
+            else
+            {
+                _ai.NextTurn(this).Execute();
+                if (Board.Player.Coordinates == Coordinates)
                 {
-                    if (Freezed)
-                    {
-                        _freezeForSteps--;
-                    }
-                    else
-                    {
-                        _ai.NextTurn(this).Execute();
-                    }
-                }
-                if (gameEvent == GameEvent.WeaponUsed)
-                {
-                    if (Vector2.Distance(Board.Player.Coordinates, Coordinates) < 1.5)
-                    {
-                        _freezeForSteps = 5;
-                    }
+                    Notify(this, GameEvent.PlayerTouchRobot);
                 }
             }
         }
 
         public override bool Act() => true;
+        
     }
 }
