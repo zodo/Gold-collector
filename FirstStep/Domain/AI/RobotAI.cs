@@ -16,7 +16,7 @@
         /// </summary>
         protected readonly Board Board;
 
-        public RobotAI(Board board)
+        protected RobotAI(Board board)
         {
             Board = board;
         }
